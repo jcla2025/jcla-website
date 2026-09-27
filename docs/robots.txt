@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.japan-clinical-lifesupport.org/sitemap.xml
