@@ -17,11 +17,15 @@ AREAS = "岡山県 備前市・赤磐市・岡山市・倉敷市"
 
 # 写真：assets/photos/ に置いたファイル名を入れる。None のあいだは仮の枠を表示。
 PHOTOS = {
-    "hero": None,          # トップの大きな写真（講習会の様子）
-    "representative": None,  # 代表理事
-    "push": None,          # 事業内容：PUSHプロジェクト
-    "inars": None,         # 事業内容：INARS
-    "volunteer": None,     # 事業内容：地域の救護・ボランティア
+    "hero": "hero-cpr-aed.jpg",       # トップの大きな写真
+    "representative": None,           # 代表理事（写真待ち）
+    "push": "push-kids.jpg",          # 事業内容：PUSHプロジェクト
+    "inars": "inars-group.jpg",       # 事業内容：INARS
+    "volunteer": "volunteer-team.jpg",  # 事業内容：地域の救護・ボランティア
+    "strength-1": "strength-1.jpg",   # 強み01
+    "strength-2": "strength-2.jpg",   # 強み02
+    "strength-3": "strength-3.jpg",   # 強み03
+    "courses": "hall-training.jpg",   # 講習会案内：出張講習
 }
 
 # ---------------- 講習プラン ----------------
@@ -82,6 +86,7 @@ EVENTS = [
 REPORTS = [
     {
         "slug": "2026-08-push-sports",
+        "photo": "training-hands.jpg",
         "date": "2026-08-17",
         "tag": "PUSH講習会",
         "title": "未来のアスリートを守る！スポ少の仲間と繋ぐ「PUSH講習会」",
@@ -98,6 +103,7 @@ REPORTS = [
     },
     {
         "slug": "2026-09-kyukyu-no-hi-annai",
+        "photo": "infant-cpr.jpg",
         "date": "2026-07-10",
         "tag": "お知らせ",
         "title": "9/6（救急の日）救命講習会 開催のご案内（赤磐・岡山西川）",
@@ -125,6 +131,7 @@ REPORTS = [
     },
     {
         "slug": "2025-09-inars-hiroshima",
+        "photo": "aed-open.jpg",
         "date": "2026-03-09",
         "tag": "INARSコース",
         "title": "広島市内でINARSコースを6年ぶりに開催",
@@ -139,6 +146,7 @@ REPORTS = [
     },
     {
         "slug": "2025-09-kyukyu-no-hi-report",
+        "photo": "aed-pads.jpg",
         "date": "2025-09-11",
         "tag": "開催報告",
         "title": "『救急の日』イベント開催報告（赤磐・備前・松山）",

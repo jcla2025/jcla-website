@@ -35,10 +35,11 @@ def jdate(iso, dots=False):
     return f"{d.year}年{d.month}月{d.day}日（{WEEK[d.weekday()]}）"
 
 
-def photo(key, alt, prefix, cls=""):
+def photo(key, alt, prefix, cls="", eager=False):
     f = PHOTOS.get(key)
     if f:
-        return f'<img class="photo {cls}" src="{prefix}assets/photos/{esc(f)}" alt="{esc(alt)}" loading="lazy">'
+        load = 'fetchpriority="high"' if eager else 'loading="lazy"'
+        return f'<img class="photo {cls}" src="{prefix}assets/photos/{esc(f)}" alt="{esc(alt)}" {load}>'
     return f'<div class="ph {cls}" role="img" aria-label="{esc(alt)}（写真準備中）">［写真：{esc(alt)}］</div>'
 
 
@@ -236,7 +237,7 @@ def top(prefix):
 <a class="btn btn-outline" href="{prefix}contact/">出張講習を依頼する</a>
 </div>
 </div>
-<div class="hero-media">{photo('hero', '救命講習会の様子', prefix)}</div>
+<div class="hero-media">{photo('hero', '胸骨圧迫とAEDの実技練習', prefix, eager=True)}</div>
 </div>
 </section>
 
@@ -262,9 +263,9 @@ def top(prefix):
 <div class="wrap">
 <div class="center" style="margin-bottom:48px"><span class="eyebrow">OUR STRENGTHS</span><h2 class="h2">当協会の強み</h2></div>
 <div class="grid-3">
-<div class="card"><span class="num">01</span><h3>医療・看護のプロによる<br>確かな指導</h3><p>医療の最前線を知る看護師や専門スタッフが直接指導。マニュアルにとどまらない、現場で「本当に使える」知識と技術が身につきます。</p></div>
-<div class="card"><span class="num">02</span><h3>「一歩を踏み出す」ための<br>心理的サポート</h3><p>「怖い」「間違えたらどうしよう」という不安に寄り添い、誰でも迷わず動けるようになるための丁寧なカリキュラム（PUSHプログラム等）を重視しています。</p></div>
-<div class="card"><span class="num">03</span><h3>地域に根ざした<br>草の根の活動</h3><p>{AREAS.replace('岡山県 ', '')}を中心に、学校・行政・地域団体と連携しながら「命をつなぐ輪」を広げています。</p></div>
+<div class="card">{photo('strength-1', '講習会の様子', prefix, 'card-photo')}<span class="num">01</span><h3>医療・看護のプロによる<br>確かな指導</h3><p>医療の最前線を知る看護師や専門スタッフが直接指導。マニュアルにとどまらない、現場で「本当に使える」知識と技術が身につきます。</p></div>
+<div class="card">{photo('strength-2', '講習会の様子', prefix, 'card-photo')}<span class="num">02</span><h3>「一歩を踏み出す」ための<br>心理的サポート</h3><p>「怖い」「間違えたらどうしよう」という不安に寄り添い、誰でも迷わず動けるようになるための丁寧なカリキュラム（PUSHプログラム等）を重視しています。</p></div>
+<div class="card">{photo('strength-3', '講習会の様子', prefix, 'card-photo')}<span class="num">03</span><h3>地域に根ざした<br>草の根の活動</h3><p>{AREAS.replace('岡山県 ', '')}を中心に、学校・行政・地域団体と連携しながら「命をつなぐ輪」を広げています。</p></div>
 </div>
 </div>
 </section>
@@ -399,6 +400,7 @@ def courses(prefix):
 <div class="card"><span class="num">3</span><h3>講習当日</h3><p>医療の専門職が伺い、実技中心で指導します。受講後の修了証の発行もご相談ください。</p></div>
 </div>
 <p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/">講習を依頼する {ARROW}</a></p>
+<div class="wide-photo">{photo('courses', '会場いっぱいでの救命講習の様子', prefix)}</div>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -430,7 +432,7 @@ def report_page(r, i):
 <h1 style="font-size:clamp(26px,3.4vw,40px)">{esc(r['title'])}</h1>
 </div></section>
 <section class="section" style="padding-top:48px"><div class="wrap">
-<article class="prose">{r['body']}</article>
+<article class="prose">{f'<figure><img class="photo" src="{prefix}assets/photos/{esc(r["photo"])}" alt="" fetchpriority="high"></figure>' if r.get('photo') else ''}{r['body']}</article>
 <nav class="article-nav" aria-label="前後の記事">{''.join(nav)}</nav>
 </div></section>"""
 

@@ -255,3 +255,11 @@ p { margin: 0; }
   .info-table th, .info-table td { padding: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ---------- photos in cards ---------- */
+.card .card-photo { aspect-ratio: 4 / 3; height: auto; width: 100%; border-radius: 14px; object-fit: cover; margin-bottom: 6px; }
+.card .ph.card-photo { display: flex; }
+.wide-photo { margin-top: 48px; aspect-ratio: 21 / 9; }
+.wide-photo img, .wide-photo .ph { height: 100%; }
+.hero-media img, .message-photo img, .biz-media img { object-position: center; }
+@media (max-width: 640px) { .wide-photo { aspect-ratio: 4 / 3; } }
