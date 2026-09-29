@@ -22,9 +22,9 @@ PHOTOS = {
     "push": "push-kids.jpg",          # 事業内容：PUSHプロジェクト
     "inars": "inars-group.jpg",       # 事業内容：INARS
     "volunteer": "volunteer-team.jpg",  # 事業内容：地域の救護・ボランティア
-    "strength-1": "strength-1.jpg",   # 強み01
-    "strength-2": "strength-2.jpg",   # 強み02
-    "strength-3": "strength-3.jpg",   # 強み03
+    "strength-1": "strength-2.jpg",   # 強み01（プロの指導）：INARSのシナリオ演習
+    "strength-2": "push-kids.jpg",    # 強み02（一歩を踏み出す）：子どもたちのPUSH講習
+    "strength-3": "strength-1.jpg",   # 強み03（地域）：地域での講習
     "courses": "hall-training.jpg",   # 講習会案内：出張講習
 }
 
