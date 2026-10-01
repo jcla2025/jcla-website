@@ -400,11 +400,11 @@ def courses(prefix):
 <div class="card"><span class="num">3</span><h3>講習当日</h3><p>医療の専門職が伺い、実技中心で指導します。受講後の修了証の発行もご相談ください。</p></div>
 </div>
 <p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/">講習を依頼する {ARROW}</a></p>
-<div class="wide-photo">{photo('courses', '会場いっぱいでの救命講習の様子', prefix)}</div>
 </div></section>
 
 <section class="section"><div class="wrap">
 {section_head('ARCHIVE', 'これまでの講習会')}
+<figure class="wide-photo" style="margin:0 0 32px">{photo('courses', '赤磐医師会病院での市民向け救命講習会', prefix)}</figure>
 <div class="events">{past_html}</div>
 </div></section>"""
 

@@ -21,11 +21,12 @@ PHOTOS = {
     "representative": None,           # 代表理事（写真待ち）
     "push": "strength-1.jpg",         # 事業内容：PUSHプロジェクト（地域での講習）
     "inars": "inars-scenario.jpg",    # 事業内容：INARS（シナリオ演習）
-    "volunteer": "volunteer-team.jpg",  # 事業内容：地域の救護・ボランティア
+    "volunteer": "volunteer-team.jpg",  # 事業内容：地域の救護・ボランティア（おかやまPUSHインストラクター）
     "strength-1": "strength-2.jpg",   # 強み01（プロの指導）：INARSのシナリオ演習
     "strength-2": "cpr-closeup.jpg",  # 強み02（一歩を踏み出す）：胸骨圧迫の実技
     "strength-3": "strength-1.jpg",   # 強み03（地域）：地域での講習
-    "courses": "hall-training.jpg",   # 講習会案内：出張講習
+    "courses": "hall-training.jpg",   # 講習会案内：これまでの講習会（赤磐医師会病院での市民向け講習会）
+    # 未使用：inars-group.jpg（INARS 集合写真）
 }
 
 # ---------------- 講習プラン ----------------
