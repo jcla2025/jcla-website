@@ -225,6 +225,14 @@ reports_sorted = sorted(REPORTS, key=lambda r: r["date"], reverse=True)
 # ======================= pages =======================
 def top(prefix):
     latest = reports_sorted[0]
+    upcoming = sorted([e for e in EVENTS if e["date"] >= TODAY], key=lambda e: (e["date"], e.get("time", "")))
+    if upcoming:
+        u = upcoming[0]
+        news_html = (f'<a class="news-item" href="{prefix}courses/"><span class="date">{jdate(u["date"], True)}</span>'
+                     f'<span class="tag">講習会のお知らせ</span><span>{esc(u["title"].split("（")[0])}　{len(upcoming)}会場で開催予定</span></a>')
+        news_more = f'<a class="more" href="{prefix}courses/">日程を見る →</a>'
+    else:
+        news_html = None
     return f"""
 <section class="hero">
 <div class="wrap">
@@ -244,8 +252,8 @@ def top(prefix):
 <div class="wrap" style="padding-bottom:clamp(56px,7vw,88px)">
 <div class="news">
 <span class="news-label">お知らせ</span>
-<a class="news-item" href="{prefix}reports/{latest['slug']}/"><span class="date">{jdate(latest['date'], True)}</span><span class="tag">{esc(latest['tag'])}</span><span>{esc(latest['title'])}</span></a>
-<a class="more" href="{prefix}reports/">一覧へ →</a>
+{news_html or f'<a class="news-item" href="{prefix}reports/{latest["slug"]}/"><span class="date">{jdate(latest["date"], True)}</span><span class="tag">{esc(latest["tag"])}</span><span>{esc(latest["title"])}</span></a>'}
+{news_more if news_html else f'<a class="more" href="{prefix}reports/">一覧へ →</a>'}
 </div>
 </div>
 
@@ -288,7 +296,7 @@ def top(prefix):
 
 <section class="section section-paper">
 <div class="wrap message">
-<div class="message-photo">{photo('representative', '代表理事 浅越博之', prefix)}</div>
+<div class="message-photo">{photo('representative', '代表理事 浅越博之', prefix) if PHOTOS.get('representative') else f'<div class="message-panel"><img src="{prefix}assets/logo.png" alt="" width="160" height="160" loading="lazy"><p>救える命を、<br>救える社会に。</p></div>'}</div>
 <div class="message-body">
 <span class="eyebrow">MESSAGE</span>
 <h2 class="h2">地域の「最初の一歩」が、<br>命を次へつなぐ。</h2>
@@ -345,6 +353,8 @@ def event_html(e, past):
     if not past and e.get("apply"):
         apply = f'<p style="margin-top:12px"><a class="btn btn-primary" href="{e["apply"]}" rel="noopener">申し込む {ARROW}</a></p>'
     fee = f"　参加費：{esc(e['fee'])}" if e.get("fee") and not past else ""
+    if not past and not e.get("apply") and e.get("apply_note"):
+        apply = f'<p class="place" style="margin-top:8px">{esc(e["apply_note"])}</p>'
     return f"""<article class="event{' event-past' if past else ''}">
 <time datetime="{e['date']}">{d.month}/{d.day}<small>{d.year}年（{WEEK[d.weekday()]}）<br>{esc(e.get('time', ''))}</small></time>
 <div><h3>{esc(e['title'])}</h3><p>{esc(e['text'])}</p><p class="place">会場：{esc(e['place'])}{fee}</p>{apply}</div>
