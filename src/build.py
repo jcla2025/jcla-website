@@ -540,7 +540,7 @@ def inars(prefix):
 <div class="split" style="color:inherit">
 <div><span class="eyebrow">ABOUT INARS</span><h2 class="h2">INARSコースとは</h2></div>
 <div style="color:var(--ink-2)">
-<p>INARS（イナーズ）は、入院患者さんの「いつもと違う」小さなサインに気づき、心停止などの急変を未然に防ぐための実践的なシミュレーション研修です。</p>
+<p>INARS（アイナース）は、入院患者さんの「いつもと違う」小さなサインに気づき、心停止などの急変を未然に防ぐための実践的なシミュレーション研修です。</p>
 <p>看護師をはじめとする医療従事者や看護教育の現場を対象に、急変の予兆の観察から、報告・応援要請、初期対応（ファーストアクション）までを、チームで繰り返し練習します。</p>
 </div>
 </div>
@@ -577,7 +577,7 @@ def build():
          about, "about", [breadcrumb_ld([("トップ", ""), ("事業内容", "about/")])])
     page("courses/", "市民向け講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
          courses, "courses", courses_ld() + [breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
-    page("inars/", "INARSコース（中四国）開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（イナーズ）コース。中国・四国地方で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
+    page("inars/", "INARSコース（中四国）開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。中国・四国地方で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
          inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("INARSコース", "inars/")])])
     page("reports/", "活動報告", "日本臨床ライフサポート協会の救命講習会・INARSコースの開催報告とお知らせ。", reports_index, "reports",
          [breadcrumb_ld([("トップ", ""), ("活動報告", "reports/")])])
