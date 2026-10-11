@@ -200,6 +200,24 @@ REPORTS = [
 # 開催日が過ぎたものは自動で「これまでのコース」に移る。
 INARS_LIST_URL = "https://meccso.jp/inars/inars-register.html"
 INARS_COURSES = [
+    {"date": "2026-10-17", "time": "12:15〜17:50", "title": "第14回高知赤十字病院INARSコース", "note": "赤十字病院職員限定",
+     "place": "高知赤十字病院（高知県高知市）", "fee": "8,000円",
+     "url": "https://meccso.jp/inars/inars-register/457-di14hui-gao-zhi-chi-shi-zi-bing-yuaninarskosu-chi-shi-zi-bing-yuan-zhi-yuan-xian-dingkosu/individual-registration.html"},
+    {"date": "2026-10-17", "time": "13:00〜18:30", "title": "第56回鳥取INARSコース",
+     "place": "鳥取大学医学部附属病院（鳥取県米子市）", "fee": "10,000円",
+     "url": "https://meccso.jp/inars/inars-register/444-di56hui-niao-quinarskosu/individual-registration.html"},
+    {"date": "2026-10-18", "time": "12:15〜17:50", "title": "第15回高知赤十字病院INARSコース", "note": "公募コース",
+     "place": "高知赤十字病院（高知県高知市）", "fee": "8,000円",
+     "url": "https://meccso.jp/inars/inars-register/458-di15hui-gao-zhi-chi-shi-zi-bing-yuaninarskosu-gong-mukosu/individual-registration.html"},
+    {"date": "2026-11-14", "time": "10:00〜16:30", "title": "第17回高知INARSコース", "note": "高知大学医学部附属病院職員限定",
+     "place": "高知大学医学部附属病院（高知県南国市）", "fee": "8,000円",
+     "url": "https://meccso.jp/inars/inars-register/477-di17hui-gao-zhiinarskosu-gao-zhi-da-xue-yi-xue-bu-fu-shu-bing-yuan-zhi-yuan-xian-dingkosu/individual-registration.html"},
+    {"date": "2026-11-28", "time": "13:00〜18:30", "title": "第57回鳥取INARSコース",
+     "place": "鳥取大学医学部附属病院（鳥取県米子市）", "fee": "10,000円",
+     "url": "https://meccso.jp/inars/inars-register/476-di57hui-niao-quinarskosu/individual-registration.html"},
+    {"date": "2026-12-05", "time": "13:00〜18:30", "title": "第13回徳島INARSコース in つるぎ町立半田病院",
+     "place": "つるぎ町立半田病院（徳島県つるぎ町）", "fee": "8,000円",
+     "url": "https://meccso.jp/inars/inars-register/478-di13hui-de-daoinarskosu-in-tsurugi-ting-li-ban-tian-bing-yuan/individual-registration.html"},
     {
         "date": "2026-12-06", "time": "12:30〜18:00",
         "title": "第11回香川INARSコース in まるがめ医療センター",
@@ -207,6 +225,9 @@ INARS_COURSES = [
         "fee": "8,000円",
         "url": "https://meccso.jp/inars/inars-register/462-di11hui-xiang-chuaninarskosu-in-marugame-yi-liaosenta/individual-registration.html",
     },
+    {"date": "2027-01-16", "time": "13:00〜18:30", "title": "第14回徳島INARSコース in 徳島県立中央病院",
+     "place": "徳島県立中央病院（徳島県徳島市）", "fee": "8,000円",
+     "url": "https://meccso.jp/inars/inars-register/481-di14hui-de-daoinarskosu-in-tsurugi-ting-li-ban-tian-bing-yuan/individual-registration.html"},
     {
         "date": "2025-09-20", "time": "",
         "title": "第8回INARSコース（広島）",

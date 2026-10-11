@@ -510,7 +510,7 @@ def inars_row(c, past):
     fee = f"　受講料：{esc(c['fee'])}" if c.get("fee") and not past else ""
     return f"""<article class="event{' event-past' if past else ''}">
 <time datetime="{c['date']}">{d.month}/{d.day}<small>{d.year}年（{WEEK[d.weekday()]}）<br>{esc(c.get('time', ''))}</small></time>
-<div><h3>{esc(c['title'])}</h3><p class="place">会場：{esc(c['place'])}{fee}</p>{btn}</div>
+<div><h3>{esc(c['title'])}{f' <span class="tag" style="vertical-align:middle">{esc(c["note"])}</span>' if c.get("note") else ''}</h3><p class="place">会場：{esc(c['place'])}{fee}</p>{btn}</div>
 </article>"""
 
 
@@ -533,7 +533,7 @@ def inars(prefix):
 <section class="section"><div class="wrap">
 {section_head('SCHEDULE', '開催予定・お申し込み', f'<a class="more" href="{INARS_LIST_URL}" rel="noopener">全国の開催一覧（MeCCSO）→</a>')}
 <div class="events">{up}</div>
-<p style="margin-top:20px;font-size:14px;color:var(--muted)">お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「MeCCSOで申し込む」から各コースの申込画面に進めます。</p>
+<p style="margin-top:20px;font-size:14px;color:var(--muted)">お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「MeCCSOで申し込む」から各コースの申込画面に進めます。空き状況（満席・キャンセル待ち）は申込画面でご確認ください。</p>
 </div></section>
 
 <section class="section section-sand"><div class="wrap">
