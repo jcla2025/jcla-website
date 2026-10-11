@@ -8,7 +8,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, SITE_URL, SNS)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -341,6 +341,25 @@ def about(prefix):
 <p class="lead">市民向けから医療従事者向けまで、それぞれのレベルに合わせた実践的な救命・ライフサポート研修を展開しています。</p>
 </div></section>
 <section class="section"><div class="wrap">{b}</div></section>
+<section class="section section-paper"><div class="wrap">
+<div class="split" style="color:inherit">
+<div>
+<span class="eyebrow">PROFILE</span><h2 class="h2">協会概要</h2>
+<table class="info-table" style="margin-top:28px">
+<tr><th>名称</th><td>{ORG_NAME}</td></tr>
+<tr><th>設立</th><td>{FOUNDED}（任意団体としての発足は2016年）</td></tr>
+<tr><th>代表理事</th><td>浅越 博之</td></tr>
+<tr><th>所在地</th><td>岡山県備前市</td></tr>
+<tr><th>活動地域</th><td>市民向け講習会：{AREA_PUBLIC}<br>INARSコース：{AREA_INARS}</td></tr>
+<tr><th>連絡先</th><td><a href="mailto:{EMAIL}">{EMAIL}</a></td></tr>
+</table>
+</div>
+<div style="color:var(--ink)">
+<span class="eyebrow">HISTORY</span><h2 class="h2" style="margin-bottom:28px">沿革</h2>
+<ol class="history">{''.join(f'<li><span class="history-year">{esc(y)}</span><p>{esc(t)}</p></li>' for y, t in HISTORY)}</ol>
+</div>
+</div>
+</div></section>
 <section class="section section-sand"><div class="wrap">
 {section_head('COURSES', '講習プラン', f'<a class="more" href="{prefix}courses/">講習会案内へ →</a>')}
 <div class="grid-2">{plans_html()}</div>
