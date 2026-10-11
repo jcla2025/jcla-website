@@ -13,7 +13,9 @@ SNS = {
     "X（旧Twitter）": "https://x.com/jcla_staff",
     "Facebook": "https://www.facebook.com/people/%E4%B8%80%E8%88%AC%E7%A4%BE%E5%9B%A3%E6%B3%95%E4%BA%BA%E6%97%A5%E6%9C%AC%E8%87%A8%E5%BA%8A%E3%83%A9%E3%82%A4%E3%83%95%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E5%8D%94%E4%BC%9A/61590270840279/",
 }
-AREAS = "岡山県 備前市・赤磐市・岡山市・倉敷市"
+AREAS = "岡山県 備前市・赤磐市・岡山市・倉敷市"  # 市民向け講習会の主な地域
+AREA_PUBLIC = "岡山県（備前市・赤磐市・岡山市・倉敷市ほか）、愛媛県松山市"
+AREA_INARS = "中国・四国地方を中心に全国（大阪・北海道ほか）"
 
 # 写真：assets/photos/ に置いたファイル名を入れる。None のあいだは仮の枠を表示。
 PHOTOS = {
@@ -200,6 +202,12 @@ REPORTS = [
 # 開催日が過ぎたものは自動で「これまでのコース」に移る。
 INARS_LIST_URL = "https://meccso.jp/inars/inars-register.html"
 INARS_COURSES = [
+    {"date": "2026-10-11", "time": "13:00〜18:30", "title": "第3回住友病院INARSコース",
+     "place": "住友病院（大阪府大阪市）", "fee": "8,000円",
+     "url": "https://meccso.jp/inars/inars-register/439-di3hui-zhu-you-bing-yuaninarskosu/individual-registration.html"},
+    {"date": "2026-11-15", "time": "9:00〜14:30", "title": "第3回北海道INARSコース in 札幌東徳洲会病院", "note": "職員限定",
+     "place": "札幌東徳洲会病院（北海道札幌市）", "fee": "10,000円",
+     "url": "https://meccso.jp/inars/inars-register/465-di3hui-bei-hai-daoinarskosu-in-zha-huang-dong-de-zhou-hui-bing-yuan/individual-registration.html"},
     {"date": "2026-10-17", "time": "12:15〜17:50", "title": "第14回高知赤十字病院INARSコース", "note": "赤十字病院職員限定",
      "place": "高知赤十字病院（高知県高知市）", "fee": "8,000円",
      "url": "https://meccso.jp/inars/inars-register/457-di14hui-gao-zhi-chi-shi-zi-bing-yuaninarskosu-chi-shi-zi-bing-yuan-zhi-yuan-xian-dingkosu/individual-registration.html"},
