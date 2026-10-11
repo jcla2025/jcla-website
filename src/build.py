@@ -274,7 +274,7 @@ def top(prefix):
 <div class="grid-3">
 <div class="card">{photo('strength-1', '講習会の様子', prefix, 'card-photo')}<span class="num">01</span><h3>医療・看護のプロによる<br>確かな指導</h3><p>医療の最前線を知る看護師や専門スタッフが直接指導。マニュアルにとどまらない、現場で「本当に使える」知識と技術が身につきます。</p></div>
 <div class="card">{photo('strength-2', '講習会の様子', prefix, 'card-photo')}<span class="num">02</span><h3>「一歩を踏み出す」ための<br>心理的サポート</h3><p>「怖い」「間違えたらどうしよう」という不安に寄り添い、誰でも迷わず動けるようになるための丁寧なカリキュラム（PUSHプログラム等）を重視しています。</p></div>
-<div class="card">{photo('strength-3', '講習会の様子', prefix, 'card-photo')}<span class="num">03</span><h3>地域に根ざし、<br>全国へ広がる活動</h3><p>岡山県備前市を拠点に、県内各地と愛媛県松山市で市民向け講習会を開催。医療従事者向けのINARSコースは、中国・四国地方を中心に全国の病院で行っています。</p></div>
+<div class="card">{photo('strength-3', '講習会の様子', prefix, 'card-photo')}<span class="num">03</span><h3>地域に根ざし、<br>全国へ広がる活動</h3><p>岡山県備前市を拠点に、県内各地と愛媛県松山市で市民向け講習会を開催。医療従事者向けのINARSコースは、中国・四国を拠点に全国の病院へ出向いて行っています。</p></div>
 </div>
 </div>
 </section>
@@ -528,7 +528,7 @@ def inars(prefix):
     return f"""<section class="page-hero"><div class="wrap">
 <p class="breadcrumb"><a href="{prefix}">トップ</a> ／ INARSコース</p>
 <h1>INARSコース</h1>
-<p class="lead">医療従事者・看護教育のための院内急変回避研修です。中国・四国地方を中心に、全国の病院で開催しています。協会が担当するコースの日程とお申し込みをご案内します。</p>
+<p class="lead">医療従事者・看護教育のための院内急変回避研修です。中国・四国を拠点に、ご依頼があれば全国の病院へ出向いて開催しています。協会が担当するコースの日程とお申し込みをご案内します。</p>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -578,7 +578,7 @@ def build():
          about, "about", [breadcrumb_ld([("トップ", ""), ("事業内容", "about/")])])
     page("courses/", "市民向け講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
          courses, "courses", courses_ld() + [breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
-    page("inars/", "INARSコース 開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。中国・四国地方を中心に全国で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
+    page("inars/", "INARSコース 開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。中国・四国を拠点に全国で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
          inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("INARSコース", "inars/")])])
     page("reports/", "活動報告", "日本臨床ライフサポート協会の救命講習会・INARSコースの開催報告とお知らせ。", reports_index, "reports",
          [breadcrumb_ld([("トップ", ""), ("活動報告", "reports/")])])
