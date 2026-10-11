@@ -8,8 +8,8 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (AREAS, EMAIL, EVENTS, LINE_URL, ORG_NAME, ORG_SHORT, PHOTOS,
-                     PLANS, REPORTS, SITE_URL, SNS)
+from content import (AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, LINE_URL, ORG_NAME,
+                     ORG_SHORT, PHOTOS, PLANS, REPORTS, SITE_URL, SNS)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "docs")
@@ -69,7 +69,7 @@ def breadcrumb_ld(items):
 
 
 def header(prefix, current):
-    items = [("about/", "事業内容"), ("courses/", "講習会案内"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
+    items = [("about/", "事業内容"), ("courses/", "市民向け講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
     cur = ' aria-current="page"'
     links = "".join(
         f'<a href="{prefix}{href}"{cur if current and current == href.split("/")[0] else ""}>{label}</a>'
@@ -100,7 +100,7 @@ def footer(prefix):
 </div>
 <div class="footer-col">
 <h2>サイト</h2>
-<a href="{prefix}about/">事業内容</a><a href="{prefix}courses/">講習会案内</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お問い合わせ・ご寄付</a>
+<a href="{prefix}about/">事業内容</a><a href="{prefix}courses/">市民向け講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お問い合わせ・ご寄付</a>
 </div>
 <div class="footer-col">
 <h2>SNS</h2>{sns}
@@ -386,9 +386,9 @@ def courses(prefix):
         f'<p class="empty">現在、受付中の講習会はありません。<br>新しい日程は、このページと<a href="{LINE_URL}" rel="noopener">LINE公式アカウント</a>・Instagramでお知らせします。</p>')
     past_html = "".join(event_html(e, True) for e in past)
     return f"""<section class="page-hero"><div class="wrap">
-<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 講習会案内</p>
-<h1>講習会案内</h1>
-<p class="lead">一般の方向けの救命講習会の日程と、団体向けの出張講習のご案内です。</p>
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 市民向け講習会</p>
+<h1>市民向け講習会</h1>
+<p class="lead">どなたでも参加できる救命講習会（胸骨圧迫・AED・窒息への対応など）の日程と、学校・企業・地域団体向けの出張講習のご案内です。医療従事者向けの研修は<a href="{prefix}inars/">INARSコース</a>をご覧ください。</p>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -480,6 +480,84 @@ def contact(prefix):
 </div></section>"""
 
 
+def inars_ld():
+    out = []
+    for c in INARS_COURSES:
+        if c["date"] < TODAY:
+            continue
+        start = (c.get("time") or "").split("〜")[0] or "00:00"
+        out.append({
+            "@context": "https://schema.org", "@type": "Event", "name": c["title"],
+            "startDate": f"{c['date']}T{start}:00+09:00",
+            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "location": {"@type": "Place", "name": c["place"], "address": c["place"]},
+            "description": "医療従事者向けの院内急変回避研修（INARSコース）",
+            "organizer": {"@type": "Organization", "name": ORG_NAME, "url": SITE_URL + "/"},
+            **({"offers": {"@type": "Offer", "url": c["url"], "availability": "https://schema.org/InStock"}} if c.get("url") else {}),
+        })
+    return out
+
+
+def inars_row(c, past):
+    d = datetime.date.fromisoformat(c["date"])
+    btn = ""
+    if not past:
+        if c.get("url"):
+            btn = f'<p style="margin-top:12px"><a class="btn btn-primary" href="{c["url"]}" rel="noopener">MeCCSOで申し込む {ARROW}</a></p>'
+        else:
+            btn = '<p class="place" style="margin-top:8px">申込受付の準備中です</p>'
+    fee = f"　受講料：{esc(c['fee'])}" if c.get("fee") and not past else ""
+    return f"""<article class="event{' event-past' if past else ''}">
+<time datetime="{c['date']}">{d.month}/{d.day}<small>{d.year}年（{WEEK[d.weekday()]}）<br>{esc(c.get('time', ''))}</small></time>
+<div><h3>{esc(c['title'])}</h3><p class="place">会場：{esc(c['place'])}{fee}</p>{btn}</div>
+</article>"""
+
+
+def inars(prefix):
+    upcoming = sorted([c for c in INARS_COURSES if c["date"] >= TODAY], key=lambda c: c["date"])
+    past = sorted([c for c in INARS_COURSES if c["date"] < TODAY], key=lambda c: c["date"], reverse=True)
+    up = "".join(inars_row(c, False) for c in upcoming) or (
+        f'<p class="empty">現在、受付中のコースはありません。<br>全国の開催予定は<a href="{INARS_LIST_URL}" rel="noopener">MeCCSOの申込一覧</a>でもご覧いただけます。</p>')
+    past_html = "".join(inars_row(c, True) for c in past)
+    past_sec = f"""<section class="section"><div class="wrap">
+{section_head('ARCHIVE', 'これまでのコース')}
+<div class="events">{past_html}</div>
+</div></section>""" if past_html else ""
+    return f"""<section class="page-hero"><div class="wrap">
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ INARSコース</p>
+<h1>INARSコース（中四国）</h1>
+<p class="lead">医療従事者・看護教育のための院内急変回避研修です。中国・四国地方で開催するコースの日程とお申し込みをご案内します。</p>
+</div></section>
+
+<section class="section"><div class="wrap">
+{section_head('SCHEDULE', '開催予定・お申し込み', f'<a class="more" href="{INARS_LIST_URL}" rel="noopener">全国の開催一覧（MeCCSO）→</a>')}
+<div class="events">{up}</div>
+<p style="margin-top:20px;font-size:14px;color:var(--muted)">お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「MeCCSOで申し込む」から各コースの申込画面に進めます。</p>
+</div></section>
+
+<section class="section section-sand"><div class="wrap">
+<div class="split" style="color:inherit">
+<div><span class="eyebrow">ABOUT INARS</span><h2 class="h2">INARSコースとは</h2></div>
+<div style="color:var(--ink-2)">
+<p>INARS（イナーズ）は、入院患者さんの「いつもと違う」小さなサインに気づき、心停止などの急変を未然に防ぐための実践的なシミュレーション研修です。</p>
+<p>看護師をはじめとする医療従事者や看護教育の現場を対象に、急変の予兆の観察から、報告・応援要請、初期対応（ファーストアクション）までを、チームで繰り返し練習します。</p>
+</div>
+</div>
+</div></section>
+
+<section class="section section-paper"><div class="wrap">
+{section_head('HOST', '院内開催のご相談')}
+<div class="grid-3">
+<div class="card"><span class="num">1</span><h3>会場のご用意</h3><p>研修室などの会場の確保と、院内での受講者の募集をお願いしています。</p></div>
+<div class="card"><span class="num">2</span><h3>運営は協会が担当</h3><p>インストラクターの手配、資器材の持ち込み、受講者・インストラクターの募集を当協会が行います。</p></div>
+<div class="card"><span class="num">3</span><h3>まずはご相談を</h3><p>開催時期や人数、院内限定か公募かなど、ご希望に合わせてご提案します。</p></div>
+</div>
+<p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/">院内開催を相談する {ARROW}</a></p>
+</div></section>
+{past_sec}"""
+
+
 def not_found(prefix):
     return f"""<section class="page-hero" style="border:0"><div class="wrap">
 <h1>ページが見つかりません</h1>
@@ -497,8 +575,10 @@ def build():
          top, "", full_title=f"{ORG_NAME}｜岡山の救命講習・AED講習")
     page("about/", "事業内容", "市民向けの救命講習「PUSHプロジェクト」、医療従事者向けの院内急変回避研修「INARSコース」、マラソン大会等での救護ボランティアなど、日本臨床ライフサポート協会の事業内容です。",
          about, "about", [breadcrumb_ld([("トップ", ""), ("事業内容", "about/")])])
-    page("courses/", "講習会案内", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
-         courses, "courses", courses_ld() + [breadcrumb_ld([("トップ", ""), ("講習会案内", "courses/")])])
+    page("courses/", "市民向け講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
+         courses, "courses", courses_ld() + [breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
+    page("inars/", "INARSコース（中四国）開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（イナーズ）コース。中国・四国地方で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
+         inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("INARSコース", "inars/")])])
     page("reports/", "活動報告", "日本臨床ライフサポート協会の救命講習会・INARSコースの開催報告とお知らせ。", reports_index, "reports",
          [breadcrumb_ld([("トップ", ""), ("活動報告", "reports/")])])
     for i, r in enumerate(reports_sorted):
@@ -514,7 +594,7 @@ def build():
     t = t.replace('href="assets/', f'href="{SITE_URL}/assets/').replace('src="assets/', f'src="{SITE_URL}/assets/') \
          .replace('href="favicon.png"', f'href="{SITE_URL}/favicon.png"').replace('href="apple-touch-icon.png"', f'href="{SITE_URL}/apple-touch-icon.png"')
     t = t.replace('<meta name="viewport"', '<meta name="robots" content="noindex">\n<meta name="viewport"')
-    for p in ["about/", "courses/", "reports/", "contact/"]:
+    for p in ["about/", "courses/", "inars/", "reports/", "contact/"]:
         t = t.replace(f'href="{p}', f'href="{SITE_URL}/{p}')
     t = t.replace('href="contact/#donate"', f'href="{SITE_URL}/contact/#donate"').replace('class="brand" href=""', f'class="brand" href="{SITE_URL}/"')
     with open(os.path.join(OUT, "404.html"), "w", encoding="utf-8") as f:

@@ -193,3 +193,23 @@ REPORTS = [
 """,
     },
 ]
+
+# ---------------- 中四国INARSコース ----------------
+# MeCCSO公式の申込一覧： https://meccso.jp/inars/inars-register.html
+# コースを立ち上げたら、ここに1件追加する（url は各コースの「個人申込」ページ）。
+# 開催日が過ぎたものは自動で「これまでのコース」に移る。
+INARS_LIST_URL = "https://meccso.jp/inars/inars-register.html"
+INARS_COURSES = [
+    {
+        "date": "2026-12-06", "time": "12:30〜18:00",
+        "title": "第11回香川INARSコース in まるがめ医療センター",
+        "place": "まるがめ医療センター（香川県丸亀市）",
+        "fee": "8,000円",
+        "url": "https://meccso.jp/inars/inars-register/462-di11hui-xiang-chuaninarskosu-in-marugame-yi-liaosenta/individual-registration.html",
+    },
+    {
+        "date": "2025-09-20", "time": "",
+        "title": "第8回INARSコース（広島）",
+        "place": "広島市南区民文化センター",
+    },
+]
