@@ -347,7 +347,7 @@ def about(prefix):
 <span class="eyebrow">PROFILE</span><h2 class="h2">協会概要</h2>
 <table class="info-table" style="margin-top:28px">
 <tr><th>名称</th><td>{ORG_NAME}</td></tr>
-<tr><th>設立</th><td>{FOUNDED}（任意団体としての発足は2016年）</td></tr>
+<tr><th>設立</th><td>{FOUNDED}<br><span style="font-size:14px;color:var(--muted)">（活動開始は2013年）</span></td></tr>
 <tr><th>代表理事</th><td>浅越 博之</td></tr>
 <tr><th>所在地</th><td>岡山県備前市</td></tr>
 <tr><th>活動地域</th><td>市民向け講習会：{AREA_PUBLIC}<br>INARSコース：{AREA_INARS}</td></tr>
