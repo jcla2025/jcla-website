@@ -415,7 +415,9 @@ def event_html(e, past):
     d = datetime.date.fromisoformat(e["date"])
     apply = ""
     if not past and e.get("apply"):
-        apply = f'<p style="margin-top:12px"><a class="btn btn-primary" href="{e["apply"]}" rel="noopener">申し込む {ARROW}</a></p>'
+        vol = e.get("volunteer", VOLUNTEER_URL)
+        apply = (f'<p class="event-actions"><a class="btn btn-primary" href="{e["apply"]}" rel="noopener">受講を申し込む {ARROW}</a>'
+                 f'<a class="btn btn-outline" href="{vol}" rel="noopener">ボランティアで参加する</a></p>')
     fee = f"　参加費：{esc(e['fee'])}" if e.get("fee") and not past else ""
     if not past and not e.get("apply") and e.get("apply_note"):
         apply = f'<p class="place" style="margin-top:8px">{esc(e["apply_note"])}</p>'
@@ -476,7 +478,7 @@ def faq_ld():
 VOLUNTEER_BAND = f"""<section class="section section-navy" id="volunteer"><div class="wrap split">
 <div><span class="eyebrow">VOLUNTEER</span><h2 class="h2">講習会の<br>ボランティア募集</h2></div>
 <div>
-<p>当協会は、ボランティア活動に取り組む方も応援しています。講習会当日の運営や、会場の準備・片付けなどをお手伝いいただいた方には、「ボランティア実績証」を発行します。</p>
+<p>当協会の講習会は、毎回ボランティアの皆さんと一緒に運営しています。ボランティア活動に取り組む方も応援しています。講習会当日の運営や、会場の準備・片付けなどをお手伝いいただいた方には、「ボランティア実績証」を発行します。</p>
 <p>学生の方の進学・就職活動や、地域活動の実績づくりにもお役立てください。</p>
 <p><a class="btn btn-light" href="{VOLUNTEER_URL}" rel="noopener">ボランティアに申し込む <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
 </div>
@@ -499,7 +501,7 @@ def courses(prefix):
 {section_head('SCHEDULE', '開催予定の講習会')}
 <ol class="steps" aria-label="参加までの流れ">
 <li><b>1</b><span>下の一覧から、参加したい日程・会場を選ぶ</span></li>
-<li><b>2</b><span>「申し込む」ボタンから、申込フォームに入力する</span></li>
+<li><b>2</b><span>「受講を申し込む」または「ボランティアで参加する」から、フォームに入力する</span></li>
 <li><b>3</b><span>当日、会場へ。動きやすい服装でお越しください</span></li>
 </ol>
 <div class="events">{up_html}</div>
