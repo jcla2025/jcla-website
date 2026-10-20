@@ -339,7 +339,14 @@ def top(prefix):
 </div>
 </section>
 
-<section class="section section-paper">
+{message_section(prefix)}
+
+{donate_band(prefix)}
+"""
+
+
+def message_section(prefix):
+    return f"""<section class="section section-paper" id="message">
 <div class="wrap message">
 <div class="message-photo">{photo('representative', '代表理事 浅越博之', prefix) if PHOTOS.get('representative') else f'<div class="message-panel"><img src="{prefix}assets/logo.png" alt="" width="160" height="160" loading="lazy"><p>救える命を、<br>救える社会に。</p></div>'}</div>
 <div class="message-body">
@@ -351,10 +358,7 @@ def top(prefix):
 <div class="signature"><small>代表理事</small><strong>浅越 博之</strong></div>
 </div>
 </div>
-</section>
-
-{donate_band(prefix)}
-"""
+</section>"""
 
 
 def donate_band(prefix):
@@ -385,7 +389,8 @@ def about(prefix):
 <p class="lead">市民向けから医療従事者向けまで、それぞれのレベルに合わせた実践的な救命・ライフサポート研修を展開しています。</p>
 </div></section>
 <section class="section"><div class="wrap">{b}</div></section>
-<section class="section section-paper"><div class="wrap">
+{message_section(prefix)}
+<section class="section"><div class="wrap">
 <div class="split" style="color:inherit">
 <div>
 <span class="eyebrow">PROFILE</span><h2 class="h2">協会概要</h2>
