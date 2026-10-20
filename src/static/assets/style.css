@@ -345,3 +345,6 @@ p { margin: 0; }
   .door { padding: 26px 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .door, .door-go svg { transition: none; } .door:hover { transform: none; } }
+.doors-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 960px) { .doors-4 { grid-template-columns: minmax(0, 1fr); } }
+.section-navy .split > :last-child p:last-child { margin-top: 8px; }

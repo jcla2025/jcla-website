@@ -9,7 +9,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from content import (FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, LINE_URL, ORG_NAME,
-                     ORG_SHORT, PHOTOS, PLANS, REPORTS, SITE_URL, SNS)
+                     ORG_SHORT, PHOTOS, PLANS, REPORTS, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "docs")
@@ -473,6 +473,15 @@ def faq_ld():
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub("<[^>]+>", "", a)}} for q, a in FAQ]}
 
 
+VOLUNTEER_BAND = f"""<section class="section section-navy" id="volunteer"><div class="wrap split">
+<div><span class="eyebrow">VOLUNTEER</span><h2 class="h2">講習会の<br>指導ボランティア募集</h2></div>
+<div>
+<p>市民向け講習会で、受講者の実技練習をサポートしてくださる方を募集しています。参加いただいた方には、活動の実績証明書を発行します。</p>
+<p><a class="btn btn-light" href="{VOLUNTEER_URL}" rel="noopener">ボランティアに申し込む <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div>
+</div></section>"""
+
+
 def courses(prefix):
     upcoming = sorted([e for e in EVENTS if e["date"] >= TODAY], key=lambda e: (e["date"], e.get("time", "")))
     past = sorted([e for e in EVENTS if e["date"] < TODAY], key=lambda e: (e["date"], e.get("time", "")), reverse=True)
@@ -495,6 +504,8 @@ def courses(prefix):
 <div class="events">{up_html}</div>
 <p style="margin-top:20px;font-size:14px;color:var(--muted)">「受付準備中」の講習会は、申込方法が決まり次第このページと<a href="{LINE_URL}" rel="noopener">LINE公式アカウント</a>でお知らせします。</p>
 </div></section>
+
+{VOLUNTEER_BAND}
 
 <section class="section section-sand"><div class="wrap">
 {section_head('COURSES', '講習プラン', '<p class="lead">学校・企業・地域団体・スポーツチームなどへの出張講習も承ります。人数や会場に合わせてご相談ください。</p>')}
@@ -572,10 +583,11 @@ def contact(prefix):
 </div></section>
 
 <section class="section" style="padding-bottom:0"><div class="wrap">
-<div class="doors">
+<div class="doors doors-4">
 <a class="door" href="{prefix}courses/#schedule"><span class="door-for">どなたでも・個人で</span><strong>講習会に参加したい</strong><span class="door-text">開催予定の一覧から日程を選び、各講習会の申込フォームからお申し込みください。</span><span class="door-go">日程と申込方法 {ARROW}</span></a>
 <a class="door" href="#request"><span class="door-for">学校・企業・団体・病院</span><strong>出張講習・院内開催を依頼したい</strong><span class="door-text">下の「ご依頼の方法」をご覧のうえ、メールかLINEでご連絡ください。</span><span class="door-go">ご依頼の方法 {ARROW}</span></a>
 <a class="door" href="{prefix}inars/#schedule"><span class="door-for">医療従事者・看護教育</span><strong>INARSコースを受けたい</strong><span class="door-text">各コースの申込はMeCCSOの申込ページで受け付けています。</span><span class="door-go">開催予定と申込 {ARROW}</span></a>
+<a class="door" href="{VOLUNTEER_URL}" rel="noopener"><span class="door-for">講習会を一緒に支えたい方</span><strong>指導ボランティアに参加したい</strong><span class="door-text">市民向け講習会で実技練習をサポートしていただく方の募集です。実績証明書を発行します。</span><span class="door-go">募集フォームへ {ARROW}</span></a>
 </div>
 </div></section>
 
