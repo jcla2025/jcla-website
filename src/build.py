@@ -72,7 +72,7 @@ def header(prefix, current):
     items = [("about/", "事業内容"), ("courses/", "市民向け講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
     cur = ' aria-current="page"'
     links = "".join(
-        f'<a href="{prefix}{href}"{cur if current and current == href.split("/")[0] else ""}>{label}</a>'
+        f'<a href="{prefix}{href}"{cur if current and "#" not in href and current == href.split("/")[0] else ""}>{label}</a>'
         for href, label in items)
     return f"""<a class="skip" href="#main">本文へ移動</a>
 <header class="site-header">
@@ -81,7 +81,7 @@ def header(prefix, current):
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="メニューを開く">
 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
 </button>
-<nav class="nav" id="site-nav" aria-label="メインメニュー">{links}<a class="btn btn-primary" href="{prefix}contact/">講習のご依頼・お問い合わせ</a></nav>
+<nav class="nav" id="site-nav" aria-label="メインメニュー">{links}<a class="btn btn-primary" href="{prefix}contact/">お申し込み・ご相談</a></nav>
 </div>
 </header>"""
 
@@ -101,7 +101,7 @@ def footer(prefix):
 </div>
 <div class="footer-col">
 <h2>サイト</h2>
-<a href="{prefix}about/">事業内容</a><a href="{prefix}courses/">市民向け講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お問い合わせ・ご寄付</a>
+<a href="{prefix}about/">事業内容</a><a href="{prefix}courses/">市民向け講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}contact/#donate">ご寄付</a>
 </div>
 <div class="footer-col">
 <h2>SNS</h2>{sns}
@@ -115,7 +115,12 @@ def footer(prefix):
 <p class="copy">© {year} {ORG_NAME}</p>
 </div>
 </footer>
+<div class="mobile-cta" aria-label="お申し込みの近道">
+<a href="{prefix}courses/#schedule">講習会の日程・申込</a>
+<a href="{LINE_URL}" rel="noopener">LINEで相談</a>
+</div>
 <script>
+(function(){{document.querySelectorAll('[data-copy]').forEach(function(btn){{btn.addEventListener('click',function(){{var t=btn.getAttribute('data-copy'),done=function(){{var o=btn.textContent;btn.textContent='コピーしました';setTimeout(function(){{btn.textContent=o;}},1800);}};if(navigator.clipboard){{navigator.clipboard.writeText(t).then(done,function(){{}});}}}});}});}})();
 (function(){{var b=document.querySelector('.menu-btn'),n=document.getElementById('site-nav');if(!b||!n)return;
 b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'メニューを閉じる':'メニューを開く');}});
 n.addEventListener('click',function(e){{if(e.target.tagName==='A'){{n.classList.remove('open');b.setAttribute('aria-expanded','false');}}}});}})();
@@ -234,6 +239,43 @@ def top(prefix):
         news_more = f'<a class="more" href="{prefix}courses/">日程を見る →</a>'
     else:
         news_html = None
+    inars_up = sorted([c for c in INARS_COURSES if c["date"] >= TODAY], key=lambda c: c["date"])
+
+    def next_line(items, label):
+        if not items:
+            return '<span class="door-next">日程は準備中です</span>'
+        d = datetime.date.fromisoformat(items[0]["date"])
+        return (f'<span class="door-next">次回 <b>{d.month}/{d.day}（{WEEK[d.weekday()]}）</b>'
+                f'{f"ほか{len(items) - 1}{label}" if len(items) > 1 else ""}</span>')
+
+    doors = f"""<section class="section doors-section" aria-labelledby="doors-title">
+<div class="wrap">
+<div class="center" style="margin-bottom:40px"><span class="eyebrow">FIND YOUR COURSE</span><h2 class="h2" id="doors-title">目的からさがす</h2></div>
+<div class="doors">
+<a class="door" href="{prefix}courses/#schedule">
+<span class="door-for">どなたでも・個人で</span>
+<strong>講習会に参加したい</strong>
+<span class="door-text">日程を選んで、各講習会の申込フォームから。市民向けの公開講習会は無料です。</span>
+{next_line(upcoming, '会場')}
+<span class="door-go">日程と申込方法 {ARROW}</span>
+</a>
+<a class="door" href="{prefix}contact/#request">
+<span class="door-for">学校・企業・地域団体・スポーツチーム</span>
+<strong>出張講習を依頼したい</strong>
+<span class="door-text">人数・会場・時間に合わせて、90分または180分のプランでご提案します。</span>
+<span class="door-next">メール・LINEで受付</span>
+<span class="door-go">依頼のしかた {ARROW}</span>
+</a>
+<a class="door" href="{prefix}inars/#schedule">
+<span class="door-for">医療従事者・看護教育</span>
+<strong>INARSコースを受けたい</strong>
+<span class="door-text">院内急変回避研修。お申し込みはMeCCSOの申込ページで受け付けています。</span>
+{next_line(inars_up, 'コース')}
+<span class="door-go">開催予定と申込 {ARROW}</span>
+</a>
+</div>
+</div>
+</section>"""
     return f"""
 <section class="hero">
 <div class="wrap">
@@ -243,7 +285,7 @@ def top(prefix):
 <p>現役の看護師・医師など医療の専門職が、胸骨圧迫とAEDの使い方、そして心停止を未然に防ぐ「急変回避（INARS）」の考え方を、わかりやすくお伝えします。</p>
 <div class="hero-actions">
 <a class="btn btn-primary" href="{prefix}courses/">講習会の日程を見る {ARROW}</a>
-<a class="btn btn-outline" href="{prefix}contact/">出張講習を依頼する</a>
+<a class="btn btn-outline" href="{prefix}contact/#request">出張講習を依頼する</a>
 </div>
 </div>
 <div class="hero-media">{photo('hero', '胸骨圧迫とAEDの実技練習', prefix, eager=True)}</div>
@@ -257,6 +299,8 @@ def top(prefix):
 {news_more if news_html else f'<a class="more" href="{prefix}reports/">一覧へ →</a>'}
 </div>
 </div>
+
+{doors}
 
 <section class="section section-navy">
 <div class="wrap split">
@@ -375,9 +419,15 @@ def event_html(e, past):
     fee = f"　参加費：{esc(e['fee'])}" if e.get("fee") and not past else ""
     if not past and not e.get("apply") and e.get("apply_note"):
         apply = f'<p class="place" style="margin-top:8px">{esc(e["apply_note"])}</p>'
+    if past:
+        status = '<span class="status status-done">終了</span>'
+    elif e.get("apply"):
+        status = '<span class="status status-open">受付中</span>'
+    else:
+        status = '<span class="status status-soon">受付準備中</span>'
     return f"""<article class="event{' event-past' if past else ''}">
 <time datetime="{e['date']}">{d.month}/{d.day}<small>{d.year}年（{WEEK[d.weekday()]}）<br>{esc(e.get('time', ''))}</small></time>
-<div><h3>{esc(e['title'])}</h3><p>{esc(e['text'])}</p><p class="place">会場：{esc(e['place'])}{fee}</p>{apply}</div>
+<div>{status}<h3>{esc(e['title'])}</h3><p>{esc(e['text'])}</p><p class="place">会場：{esc(e['place'])}{fee}</p>{apply}</div>
 </article>"""
 
 
@@ -399,6 +449,30 @@ def courses_ld():
     return out
 
 
+FAQ = [
+    ("医療の知識がなくても参加できますか？",
+     "はい。はじめての方を対象に、看護師など医療の専門職が基本から指導します。"),
+    ("参加費はかかりますか？",
+     "講習会ごとに「開催予定の講習会」に記載しています。市民向けの公開講習会は無料で開催しています。"),
+    ("服装や持ち物は？",
+     "床にひざをついて胸骨圧迫（心臓マッサージ）の練習をするため、動きやすい服装でお越しください。練習用の人形やAEDトレーナーは協会で用意します。"),
+    ("修了証はもらえますか？",
+     "受講修了証を交付している講習会があります。各講習会の案内をご確認ください。"),
+    ("職場や学校、チームで受けたいのですが。",
+     '出張講習を承ります。<a href="{p}contact/#request">出張講習のご依頼</a>から、ご希望の日時・人数・会場をお知らせください。'),
+]
+
+
+def faq_html(prefix):
+    return "".join(f'<details><summary>{esc(q)}</summary><p>{a.format(p=prefix)}</p></details>' for q, a in FAQ)
+
+
+def faq_ld():
+    import re
+    return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub("<[^>]+>", "", a)}} for q, a in FAQ]}
+
+
 def courses(prefix):
     upcoming = sorted([e for e in EVENTS if e["date"] >= TODAY], key=lambda e: (e["date"], e.get("time", "")))
     past = sorted([e for e in EVENTS if e["date"] < TODAY], key=lambda e: (e["date"], e.get("time", "")), reverse=True)
@@ -411,9 +485,15 @@ def courses(prefix):
 <p class="lead">どなたでも参加できる救命講習会（胸骨圧迫・AED・窒息への対応など）の日程と、学校・企業・地域団体向けの出張講習のご案内です。医療従事者向けの研修は<a href="{prefix}inars/">INARSコース</a>をご覧ください。</p>
 </div></section>
 
-<section class="section"><div class="wrap">
+<section class="section" id="schedule"><div class="wrap">
 {section_head('SCHEDULE', '開催予定の講習会')}
+<ol class="steps" aria-label="参加までの流れ">
+<li><b>1</b><span>下の一覧から、参加したい日程・会場を選ぶ</span></li>
+<li><b>2</b><span>「申し込む」ボタンから、申込フォームに入力する</span></li>
+<li><b>3</b><span>当日、会場へ。動きやすい服装でお越しください</span></li>
+</ol>
 <div class="events">{up_html}</div>
+<p style="margin-top:20px;font-size:14px;color:var(--muted)">「受付準備中」の講習会は、申込方法が決まり次第このページと<a href="{LINE_URL}" rel="noopener">LINE公式アカウント</a>でお知らせします。</p>
 </div></section>
 
 <section class="section section-sand"><div class="wrap">
@@ -429,7 +509,12 @@ def courses(prefix):
 <div class="card"><span class="num">2</span><h3>内容のご相談</h3><p>目的や時間に合わせて、プランと講習内容をご提案します。資器材は当協会でご用意します。</p></div>
 <div class="card"><span class="num">3</span><h3>講習当日</h3><p>医療の専門職が伺い、実技中心で指導します。受講後の修了証の発行もご相談ください。</p></div>
 </div>
-<p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/">講習を依頼する {ARROW}</a></p>
+<p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/#request">講習を依頼する {ARROW}</a></p>
+</div></section>
+
+<section class="section"><div class="wrap" style="max-width:calc(860px + var(--gutter)*2)">
+{section_head('FAQ', 'よくあるご質問')}
+<div class="faq">{faq_html(prefix)}</div>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -477,26 +562,58 @@ def report_page(r, i):
 
 
 def contact(prefix):
-    subj_req = "講習のご依頼"
-    subj_don = "ご寄付について"
     from urllib.parse import quote
+    subj_req = quote("講習のご依頼")
+    subj_don = quote("ご寄付について")
     return f"""<section class="page-hero"><div class="wrap">
-<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ お問い合わせ・ご寄付</p>
-<h1>お問い合わせ・ご寄付</h1>
-<p class="lead">講習のご依頼、ご寄付、その他のご質問など、お気軽にご連絡ください。</p>
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ お申し込み・お問い合わせ</p>
+<h1>お申し込み・お問い合わせ</h1>
+<p class="lead">ご用件に合わせて、いちばん近い窓口をお選びください。</p>
 </div></section>
-<section class="section"><div class="wrap">
-<div class="contact-grid">
-<div class="contact-card"><h2>講習のご依頼</h2><p>ご希望の日時・人数・会場・対象の方をお知らせください。内容や費用についてご提案します。</p><a class="btn btn-primary" href="mailto:{EMAIL}?subject={quote(subj_req)}">メールで依頼する</a></div>
-<div class="contact-card"><h2>LINEで相談</h2><p>ちょっとした質問や日程の相談は、LINE公式アカウントからも受け付けています。</p><a class="btn btn-outline" href="{LINE_URL}" rel="noopener">LINEを開く</a></div>
-<div class="contact-card" id="donate"><h2>ご寄付について</h2><p>ご寄付の方法や使い道について、ご質問があればお気軽にお問い合わせください。</p><a class="btn btn-outline" href="mailto:{EMAIL}?subject={quote(subj_don)}">寄付について問い合わせる</a></div>
+
+<section class="section" style="padding-bottom:0"><div class="wrap">
+<div class="doors">
+<a class="door" href="{prefix}courses/#schedule"><span class="door-for">どなたでも・個人で</span><strong>講習会に参加したい</strong><span class="door-text">開催予定の一覧から日程を選び、各講習会の申込フォームからお申し込みください。</span><span class="door-go">日程と申込方法 {ARROW}</span></a>
+<a class="door" href="#request"><span class="door-for">学校・企業・団体・病院</span><strong>出張講習・院内開催を依頼したい</strong><span class="door-text">下の「ご依頼の方法」をご覧のうえ、メールかLINEでご連絡ください。</span><span class="door-go">ご依頼の方法 {ARROW}</span></a>
+<a class="door" href="{prefix}inars/#schedule"><span class="door-for">医療従事者・看護教育</span><strong>INARSコースを受けたい</strong><span class="door-text">各コースの申込はMeCCSOの申込ページで受け付けています。</span><span class="door-go">開催予定と申込 {ARROW}</span></a>
 </div>
-<p style="margin-top:32px;color:var(--muted)">メールアドレス：<a href="mailto:{EMAIL}">{EMAIL}</a></p>
 </div></section>
-<section class="section section-sand"><div class="wrap prose" style="max-width:860px">
+
+<section class="section" id="request"><div class="wrap">
+<div class="request">
+<div>
+<span class="eyebrow">REQUEST</span><h2 class="h2">出張講習・院内開催のご依頼</h2>
+<p style="margin-top:16px;color:var(--ink-2)">次の項目をお知らせいただくと、プランと費用のご提案がスムーズです。わかる範囲で構いません。</p>
+<ul class="checklist">
+<li>団体名・ご担当者名・連絡先</li>
+<li>ご希望の日時（候補を2〜3つ）</li>
+<li>受講人数と、対象の方（年齢・職種など）</li>
+<li>会場（住所）と、床に座れるスペースの有無</li>
+<li>ご希望の時間（90分／180分）やご要望</li>
+</ul>
+</div>
+<div class="contact-stack">
+<div class="contact-card">
+<h3>メールで依頼する</h3>
+<p class="mail-line"><span class="mail">{EMAIL}</span><button class="copy-btn" type="button" data-copy="{EMAIL}">コピー</button></p>
+<a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj_req}">メールアプリを開く</a>
+<p class="hint">メールアプリが開かないときは、アドレスをコピーしてお使いください。</p>
+</div>
+<div class="contact-card">
+<h3>LINEで相談する</h3>
+<p>日程の空きや、ちょっとした質問もお気軽にどうぞ。</p>
+<a class="btn btn-outline" href="{LINE_URL}" rel="noopener">LINE公式アカウントを開く</a>
+</div>
+</div>
+</div>
+</div></section>
+
+<section class="section section-sand" id="donate"><div class="wrap prose" style="max-width:860px">
 <h2 style="margin-top:0">ご寄付のお願い</h2>
 <p>私たちの活動は、皆様からの温かいご支援・ご寄付によって支えられています。お寄せいただいた寄付金は、講習活動の維持・拡大、救命資器材の充実のために大切に使用させていただきます。</p>
 <p>「救える命を、救える社会に」していくため、皆様のご理解とご協力を心よりお願い申し上げます。</p>
+<p><a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj_don}">寄付について問い合わせる</a></p>
+<p style="font-size:14px;color:var(--muted)">メール：{EMAIL}</p>
 </div></section>"""
 
 
@@ -528,9 +645,15 @@ def inars_row(c, past):
         else:
             btn = '<p class="place" style="margin-top:8px">申込受付の準備中です</p>'
     fee = f"　受講料：{esc(c['fee'])}" if c.get("fee") and not past else ""
+    if past:
+        status = '<span class="status status-done">終了</span>'
+    elif c.get("url"):
+        status = '<span class="status status-open">受付中</span>'
+    else:
+        status = '<span class="status status-soon">受付準備中</span>'
     return f"""<article class="event{' event-past' if past else ''}">
 <time datetime="{c['date']}">{d.month}/{d.day}<small>{d.year}年（{WEEK[d.weekday()]}）<br>{esc(c.get('time', ''))}</small></time>
-<div><h3>{esc(c['title'])}{f' <span class="tag" style="vertical-align:middle">{esc(c["note"])}</span>' if c.get("note") else ''}</h3><p class="place">会場：{esc(c['place'])}{fee}</p>{btn}</div>
+<div>{status}<h3>{esc(c['title'])}{f' <span class="tag" style="vertical-align:middle">{esc(c["note"])}</span>' if c.get("note") else ''}</h3><p class="place">会場：{esc(c['place'])}{fee}</p>{btn}</div>
 </article>"""
 
 
@@ -550,10 +673,10 @@ def inars(prefix):
 <p class="lead">医療従事者・看護教育のための院内急変回避研修です。中国・四国を拠点に、ご依頼があれば全国の病院へ出向いて開催しています。協会が担当するコースの日程とお申し込みをご案内します。</p>
 </div></section>
 
-<section class="section"><div class="wrap">
+<section class="section" id="schedule"><div class="wrap">
 {section_head('SCHEDULE', '開催予定・お申し込み', f'<a class="more" href="{INARS_LIST_URL}" rel="noopener">全国の開催一覧（MeCCSO）→</a>')}
 <div class="events">{up}</div>
-<p style="margin-top:20px;font-size:14px;color:var(--muted)">お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「MeCCSOで申し込む」から各コースの申込画面に進めます。空き状況（満席・キャンセル待ち）は申込画面でご確認ください。</p>
+<p style="margin-top:20px;font-size:14px;color:var(--muted)">「職員限定」のコースは、開催病院の職員の方のみ受講できます。お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「MeCCSOで申し込む」から各コースの申込画面に進めます。空き状況（満席・キャンセル待ち）は申込画面でご確認ください。</p>
 </div></section>
 
 <section class="section section-sand"><div class="wrap">
@@ -573,7 +696,7 @@ def inars(prefix):
 <div class="card"><span class="num">2</span><h3>運営は協会が担当</h3><p>インストラクターの手配、資器材の持ち込み、受講者・インストラクターの募集を当協会が行います。</p></div>
 <div class="card"><span class="num">3</span><h3>まずはご相談を</h3><p>開催時期や人数、院内限定か公募かなど、ご希望に合わせてご提案します。</p></div>
 </div>
-<p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/">院内開催を相談する {ARROW}</a></p>
+<p style="margin-top:32px"><a class="btn btn-primary" href="{prefix}contact/#request">院内開催を相談する {ARROW}</a></p>
 </div></section>
 {past_sec}"""
 
@@ -596,15 +719,15 @@ def build():
     page("about/", "事業内容", "市民向けの救命講習「PUSHプロジェクト」、医療従事者向けの院内急変回避研修「INARSコース」、マラソン大会等での救護ボランティアなど、日本臨床ライフサポート協会の事業内容です。",
          about, "about", [breadcrumb_ld([("トップ", ""), ("事業内容", "about/")])])
     page("courses/", "市民向け講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
-         courses, "courses", courses_ld() + [breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
+         courses, "courses", courses_ld() + [faq_ld(), breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
     page("inars/", "INARSコース 開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。中国・四国を拠点に全国で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
          inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("INARSコース", "inars/")])])
     page("reports/", "活動報告", "日本臨床ライフサポート協会の救命講習会・INARSコースの開催報告とお知らせ。", reports_index, "reports",
          [breadcrumb_ld([("トップ", ""), ("活動報告", "reports/")])])
     for i, r in enumerate(reports_sorted):
         report_page(r, i)
-    page("contact/", "お問い合わせ・ご寄付", "救命講習・AED講習の出張依頼、ご寄付、その他のお問い合わせはこちら。メールまたはLINEで受け付けています。",
-         contact, "contact", [breadcrumb_ld([("トップ", ""), ("お問い合わせ・ご寄付", "contact/")])])
+    page("contact/", "お申し込み・お問い合わせ", "救命講習会への参加、出張講習・院内開催のご依頼、INARSコースのお申し込み、ご寄付のお問い合わせはこちら。メールまたはLINEで受け付けています。",
+         contact, "contact", [breadcrumb_ld([("トップ", ""), ("お申し込み・お問い合わせ", "contact/")])])
 
     # 404（GitHub Pages はルートの 404.html を使う。リンクは絶対URL）
     page("404.html", "ページが見つかりません", "お探しのページは見つかりませんでした。", not_found)

@@ -283,3 +283,65 @@ p { margin: 0; }
 .history li::before { content: ""; position: absolute; left: -7px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
 .history-year { display: block; font-family: var(--serif); font-weight: 800; font-size: 17px; color: var(--navy); }
 .history p { color: var(--ink-2); font-size: 15px; margin-top: 2px; }
+
+/* ---------- 目的からさがす（入口カード） ---------- */
+.doors-section { padding-top: 0; }
+.doors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.door { display: flex; flex-direction: column; gap: 10px; padding: 32px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: var(--radius); color: var(--ink); transition: transform .15s, box-shadow .15s; }
+.door:hover { color: var(--ink); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(28, 36, 48, 0.08); }
+.door-for { font-size: 13px; font-weight: 700; color: var(--accent-deep); letter-spacing: .04em; }
+.door strong { font-family: var(--serif); font-weight: 800; font-size: 23px; line-height: 1.45; }
+.door-text { color: var(--ink-2); font-size: 15px; flex-grow: 1; }
+.door-next { font-size: 14px; color: var(--navy); background: var(--ground); border-radius: 10px; padding: 8px 12px; }
+.door-next b { font-variant-numeric: tabular-nums; }
+.door-go { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--accent); margin-top: 4px; }
+.door-go svg { width: 18px; height: 18px; transition: transform .15s; }
+.door:hover .door-go svg { transform: translateX(3px); }
+
+/* ---------- 受付状況 ---------- */
+.status { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 12px; border-radius: 999px; margin-bottom: 8px; line-height: 1.9; }
+.status-open { background: var(--accent); color: #FFFFFF; }
+.status-soon { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); line-height: 1.75; }
+.status-done { background: var(--line); color: var(--muted); }
+
+/* ---------- 参加までの流れ ---------- */
+.steps { list-style: none; margin: 0 0 24px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.steps li { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 14px; background: var(--sand); font-size: 15px; font-weight: 500; }
+.steps b { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--navy); color: #FFFFFF; display: grid; place-items: center; font-family: var(--serif); font-size: 17px; }
+
+/* ---------- FAQ ---------- */
+.faq { display: flex; flex-direction: column; gap: 12px; }
+.faq details { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 0 24px; }
+.faq summary { cursor: pointer; list-style: none; padding: 20px 32px 20px 0; font-weight: 700; font-size: 17px; position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 24px; font-weight: 400; color: var(--accent); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 0 20px; color: var(--ink-2); }
+
+/* ---------- 依頼の方法 ---------- */
+.request { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.checklist { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.checklist li { position: relative; padding-left: 32px; }
+.checklist li::before { content: ""; position: absolute; left: 0; top: 6px; width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--accent); }
+.checklist li::after { content: ""; position: absolute; left: 6px; top: 9px; width: 6px; height: 11px; border: solid var(--accent); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+.contact-stack { display: flex; flex-direction: column; gap: 20px; }
+.contact-card h3 { font-size: 19px; font-weight: 700; }
+.mail-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.mail { font-weight: 700; word-break: break-all; color: var(--ink); }
+.copy-btn { font: inherit; font-size: 13px; font-weight: 700; padding: 4px 14px; border-radius: 999px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
+.copy-btn:hover { background: var(--ink); color: #FFFFFF; }
+.hint { font-size: 13px !important; color: var(--muted) !important; }
+
+/* ---------- スマホ下部の申込バー ---------- */
+.mobile-cta { display: none; }
+@media (max-width: 960px) {
+  .doors, .request, .steps { grid-template-columns: minmax(0, 1fr); }
+  .request { gap: 32px; }
+  .mobile-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); background: rgba(247, 244, 238, 0.96); border-top: 1px solid var(--line); backdrop-filter: blur(8px); }
+  .mobile-cta a { display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 999px; font-weight: 700; font-size: 15px; }
+  .mobile-cta a:first-child { background: var(--accent); color: #FFFFFF; }
+  .mobile-cta a:last-child { background: #06C755; color: #FFFFFF; }
+  body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+  .door { padding: 26px 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .door, .door-go svg { transition: none; } .door:hover { transform: none; } }
