@@ -97,6 +97,7 @@ def footer(prefix):
 <img src="{prefix}assets/logo.png" alt="" width="84" height="84" loading="lazy">
 <strong>一般社団法人<br>{ORG_SHORT}</strong>
 <span>共に、命を守る力を。</span>
+<span>所在地：岡山県備前市</span>
 <span>市民向け講習会：{AREA_PUBLIC}</span>
 <span>INARSコースの支援：{AREA_INARS}</span>
 </div>
