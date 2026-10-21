@@ -9,7 +9,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from content import (FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, LINE_URL, ORG_NAME,
-                     ORG_SHORT, PHOTOS, PLANS, REPORTS, SITE_URL, SNS, VOLUNTEER_URL)
+                     ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "docs")
@@ -200,7 +200,7 @@ def section_head(eyebrow, title, right=""):
 def report_cards(prefix, items):
     out = []
     for r in items:
-        out.append(f"""<a class="report-card" href="{prefix}reports/{r['slug']}/">
+        out.append(f"""<a class="report-card" data-cat="{esc(r['tag'])}" href="{prefix}reports/{r['slug']}/">
 {f'<img src="{prefix}assets/photos/{esc(r["photo"])}" alt="" loading="lazy">' if r.get('photo') else '<div class="ph" aria-hidden="true">［活動写真］</div>'}
 <span class="date">{jdate(r['date'], True)}　<span class="tag">{esc(r['tag'])}</span></span>
 <h3>{esc(r['title'])}</h3>
@@ -226,6 +226,9 @@ PROGRAMS = """<div class="grid-2" style="margin-top:24px">
 </div>"""
 
 reports_sorted = sorted(REPORTS, key=lambda r: r["date"], reverse=True)
+for _r in REPORTS:
+    if _r["tag"] not in REPORT_CATEGORIES:
+        sys.exit(f"活動報告「{_r['title']}」の tag「{_r['tag']}」は REPORT_CATEGORIES にありません")
 
 
 # ======================= pages =======================
@@ -494,7 +497,12 @@ def courses(prefix):
     past = sorted([e for e in EVENTS if e["date"] < TODAY], key=lambda e: (e["date"], e.get("time", "")), reverse=True)
     up_html = "".join(event_html(e, False) for e in upcoming) or (
         f'<p class="empty">現在、受付中の講習会はありません。<br>新しい日程は、このページと<a href="{LINE_URL}" rel="noopener">LINE公式アカウント</a>・Instagramでお知らせします。</p>')
-    past_html = "".join(event_html(e, True) for e in past)
+    def rec(e):
+        d = datetime.date.fromisoformat(e["date"])
+        rep = f'<a href="{prefix}reports/{e["report"]}/">開催報告</a>' if e.get("report") else '<span class="none">—</span>'
+        return (f'<tr><td class="num">{d.year}.{d.month:02d}.{d.day:02d}</td><td>{esc(e["title"])}</td>'
+                f'<td>{esc(e["place"])}</td><td>{rep}</td></tr>')
+    past_html = "".join(rec(e) for e in past)
     return f"""<section class="page-hero"><div class="wrap">
 <p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 市民向け講習会</p>
 <h1>市民向け講習会</h1>
@@ -536,9 +544,12 @@ def courses(prefix):
 </div></section>
 
 <section class="section"><div class="wrap">
-{section_head('ARCHIVE', 'これまでの講習会')}
+{section_head('RECORD', '開催実績', f'<a class="more" href="{prefix}reports/">活動報告を見る →</a>')}
 <figure class="wide-photo" style="margin:0 0 32px">{photo('courses', '赤磐医師会病院での市民向け救命講習会', prefix)}</figure>
-<div class="events">{past_html}</div>
+<div class="table-scroll"><table class="record">
+<thead><tr><th>開催日</th><th>講習会</th><th>会場</th><th>報告</th></tr></thead>
+<tbody>{past_html}</tbody>
+</table></div>
 </div></section>"""
 
 
@@ -548,7 +559,22 @@ def reports_index(prefix):
 <h1>活動報告</h1>
 <p class="lead">講習会の開催報告やお知らせを掲載しています。</p>
 </div></section>
-<section class="section"><div class="wrap"><div class="grid-3">{report_cards(prefix, reports_sorted)}</div></div></section>"""
+<section class="section"><div class="wrap">{report_filter()}<div class="grid-3" id="report-list">{report_cards(prefix, reports_sorted)}</div></div></section>"""
+
+
+def report_filter():
+    used = [c for c in REPORT_CATEGORIES if any(r["tag"] == c for r in REPORTS)]
+    if len(used) < 2:
+        return ""
+    btns = '<button type="button" class="chip" aria-pressed="true" data-filter="">すべて</button>' + "".join(
+        f'<button type="button" class="chip" aria-pressed="false" data-filter="{esc(c)}">{esc(c)}</button>' for c in used)
+    return f"""<div class="chips" role="group" aria-label="カテゴリーで絞り込む">{btns}</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){{var bs=document.querySelectorAll('.chip'),cs=document.querySelectorAll('#report-list .report-card');
+bs.forEach(function(b){{b.addEventListener('click',function(){{var f=b.getAttribute('data-filter');
+bs.forEach(function(x){{x.setAttribute('aria-pressed',x===b?'true':'false');}});
+cs.forEach(function(c){{c.hidden=!!f&&c.getAttribute('data-cat')!==f;}});}});}});}});
+</script>"""
 
 
 def report_page(r, i):
