@@ -685,7 +685,7 @@ def inars_row(c, past):
     btn = ""
     if not past:
         if c.get("url"):
-            btn = f'<p style="margin-top:12px"><a class="btn btn-primary" href="{c["url"]}" rel="noopener">MeCCSOで申し込む {ARROW}</a></p>'
+            btn = f'<p style="margin-top:12px"><a class="btn btn-primary" href="{c["url"]}" rel="noopener">詳細・お申し込み（MeCCSO） {ARROW}</a></p>'
         else:
             btn = '<p class="place" style="margin-top:8px">申込受付の準備中です</p>'
     fee = ""  # 受講料は協会のお金ではないため表示しない（MeCCSOの申込ページで案内）
@@ -720,7 +720,7 @@ def inars(prefix):
 <section class="section" id="schedule"><div class="wrap">
 {section_head('SCHEDULE', '開催予定・お申し込み', f'<a class="more" href="{INARS_LIST_URL}" rel="noopener">全国の開催一覧（MeCCSO）→</a>')}
 <div class="events">{up}</div>
-<p style="margin-top:20px;font-size:14px;color:var(--muted)">「職員限定」のコースは、開催病院の職員の方のみ受講できます。お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「MeCCSOで申し込む」から各コースの申込画面に進めます。受講料・お支払い方法と空き状況（満席・キャンセル待ち）は、各コースの申込画面でご確認ください。</p>
+<p style="margin-top:20px;font-size:14px;color:var(--muted)">「職員限定」のコースは、開催病院の職員の方のみ受講できます。お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「詳細・お申し込み」から、MeCCSOの各コースのページに進めます。受講料・お支払い方法と空き状況（満席・キャンセル待ち）は、各コースの申込画面でご確認ください。</p>
 </div></section>
 
 <section class="section section-sand"><div class="wrap">
