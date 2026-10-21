@@ -70,7 +70,7 @@ def breadcrumb_ld(items):
 
 
 def header(prefix, current):
-    items = [("about/", "協会について"), ("courses/", "市民向け講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
+    items = [("about/", "協会について"), ("courses/", "救命講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
     cur = ' aria-current="page"'
     links = "".join(
         f'<a href="{prefix}{href}"{cur if current and "#" not in href and current == href.split("/")[0] else ""}>{label}</a>'
@@ -98,12 +98,12 @@ def footer(prefix):
 <strong>一般社団法人<br>{ORG_SHORT}</strong>
 <span>共に、命を守る力を。</span>
 <span>所在地：岡山県備前市</span>
-<span>市民向け講習会：{AREA_PUBLIC}</span>
+<span>救命講習会：{AREA_PUBLIC}</span>
 <span>INARSコースの支援：{AREA_INARS}</span>
 </div>
 <div class="footer-col">
 <h2>サイト</h2>
-<a href="{prefix}about/">協会について</a><a href="{prefix}courses/">市民向け講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}contact/#donate">ご寄付</a>
+<a href="{prefix}about/">協会について</a><a href="{prefix}courses/">救命講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}contact/#donate">ご寄付</a>
 </div>
 <div class="footer-col">
 <h2>SNS</h2>{sns}
@@ -338,7 +338,7 @@ def top(prefix):
 <div class="grid-3">
 <div class="card">{photo('strength-1', '講習会の様子', prefix, 'card-photo')}<span class="num">01</span><h3>医療・看護のプロによる<br>確かな指導</h3><p>医療の最前線を知る看護師や専門スタッフが直接指導。マニュアルにとどまらない、現場で「本当に使える」知識と技術が身につきます。</p></div>
 <div class="card">{photo('strength-2', '講習会の様子', prefix, 'card-photo')}<span class="num">02</span><h3>「一歩を踏み出す」ための<br>心理的サポート</h3><p>「怖い」「間違えたらどうしよう」という不安に寄り添い、誰でも迷わず動けるようになるための丁寧なカリキュラム（PUSHプログラム等）を重視しています。</p></div>
-<div class="card">{photo('strength-3', '講習会の様子', prefix, 'card-photo')}<span class="num">03</span><h3>地域に根ざし、<br>全国へ広がる活動</h3><p>岡山県備前市を拠点に、県内各地と愛媛県松山市で市民向け講習会を開催。医療従事者向けのINARSコースも、中国・四国を中心に各地で開催を支援しています。</p></div>
+<div class="card">{photo('strength-3', '講習会の様子', prefix, 'card-photo')}<span class="num">03</span><h3>地域に根ざし、<br>全国へ広がる活動</h3><p>岡山県備前市を拠点に、県内各地と愛媛県松山市で救命講習会を開催。医療従事者向けのINARSコースも、中国・四国を中心に各地で開催を支援しています。</p></div>
 </div>
 </div>
 </section>
@@ -422,7 +422,7 @@ def about(prefix):
 <tr><th>設立</th><td>{FOUNDED}<br><span style="font-size:14px;color:var(--muted)">（活動開始は2013年）</span></td></tr>
 <tr><th>代表理事</th><td>浅越 博之</td></tr>
 <tr><th>所在地</th><td>岡山県備前市</td></tr>
-<tr><th>活動地域</th><td>市民向け講習会：{AREA_PUBLIC}<br>INARSコースの支援：{AREA_INARS}</td></tr>
+<tr><th>活動地域</th><td>救命講習会：{AREA_PUBLIC}<br>INARSコースの支援：{AREA_INARS}</td></tr>
 <tr><th>連絡先</th><td><a href="mailto:{EMAIL}">{EMAIL}</a></td></tr>
 </table>
 </div>
@@ -521,8 +521,8 @@ def courses(prefix):
                 f'<td>{esc(e["place"])}</td><td>{rep}</td></tr>')
     past_html = "".join(rec(e) for e in past)
     return f"""<section class="page-hero"><div class="wrap">
-<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 市民向け講習会</p>
-<h1>市民向け講習会</h1>
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 救命講習会</p>
+<h1>救命講習会</h1>
 <p class="lead">どなたでも参加できる救命講習会（胸骨圧迫・AED・窒息への対応など）の日程と、学校・企業・地域団体向けの出張講習のご案内です。医療従事者向けの研修は<a href="{prefix}inars/">INARSコース</a>をご覧ください。</p>
 </div></section>
 
@@ -799,8 +799,8 @@ def build():
          top, "", full_title=f"{ORG_NAME}｜岡山の救命講習・AED講習")
     page("about/", "協会について", "日本臨床ライフサポート協会の代表理事あいさつ、事業内容（市民向け救命講習「PUSHプロジェクト」、医療従事者向け「INARSコース」、救護ボランティア）、協会概要と沿革です。",
          about, "about", [breadcrumb_ld([("トップ", ""), ("協会について", "about/")])])
-    page("courses/", "市民向け講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
-         courses, "courses", courses_ld() + [faq_ld(), breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
+    page("courses/", "救命講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
+         courses, "courses", courses_ld() + [faq_ld(), breadcrumb_ld([("トップ", ""), ("救命講習会", "courses/")])])
     page("inars/", "INARSコース 開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。当協会が開催を支援する中四国INARSコースなどの日程と、MeCCSO申込ページへのご案内です。",
          inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("INARSコース", "inars/")])])
     page("reports/", "活動報告", "日本臨床ライフサポート協会の救命講習会・INARSコースの開催報告とお知らせ。", reports_index, "reports",
