@@ -350,3 +350,6 @@ p { margin: 0; }
 .section-navy .split > :last-child p:last-child { margin-top: 8px; }
 .event-actions { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
 @media (max-width: 640px) { .event-actions .btn { width: 100%; } }
+.page-index { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.page-index a { padding: 6px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); font-size: 14px; font-weight: 700; }
+.page-index a:hover { border-color: var(--accent); color: var(--accent); }

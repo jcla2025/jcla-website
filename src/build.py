@@ -69,7 +69,7 @@ def breadcrumb_ld(items):
 
 
 def header(prefix, current):
-    items = [("about/", "事業内容"), ("courses/", "市民向け講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
+    items = [("about/", "協会について"), ("courses/", "市民向け講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
     cur = ' aria-current="page"'
     links = "".join(
         f'<a href="{prefix}{href}"{cur if current and "#" not in href and current == href.split("/")[0] else ""}>{label}</a>'
@@ -101,7 +101,7 @@ def footer(prefix):
 </div>
 <div class="footer-col">
 <h2>サイト</h2>
-<a href="{prefix}about/">事業内容</a><a href="{prefix}courses/">市民向け講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}contact/#donate">ご寄付</a>
+<a href="{prefix}about/">協会について</a><a href="{prefix}courses/">市民向け講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}contact/#donate">ご寄付</a>
 </div>
 <div class="footer-col">
 <h2>SNS</h2>{sns}
@@ -384,13 +384,16 @@ def about(prefix):
 <div class="biz-body"><span class="biz-for">{f}</span><h2>{t}</h2><p>{x}</p></div>
 </div>""" for k, t, f, x in blocks)
     return f"""<section class="page-hero"><div class="wrap">
-<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 事業内容</p>
-<h1>事業内容</h1>
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 協会について</p>
+<h1>協会について</h1>
 <p class="lead">市民向けから医療従事者向けまで、それぞれのレベルに合わせた実践的な救命・ライフサポート研修を展開しています。</p>
+<nav class="page-index" aria-label="このページの内容"><a href="#message">代表理事あいさつ</a><a href="#business">事業内容</a><a href="#profile">協会概要・沿革</a></nav>
 </div></section>
-<section class="section"><div class="wrap">{b}</div></section>
 {message_section(prefix)}
-<section class="section"><div class="wrap">
+<section class="section" id="business"><div class="wrap">
+{section_head('BUSINESS', '事業内容')}
+{b}</div></section>
+<section class="section section-paper" id="profile"><div class="wrap">
 <div class="split" style="color:inherit">
 <div>
 <span class="eyebrow">PROFILE</span><h2 class="h2">協会概要</h2>
@@ -408,10 +411,6 @@ def about(prefix):
 <ol class="history">{''.join(f'<li><span class="history-year">{esc(y)}</span><p>{esc(t)}</p></li>' for y, t in HISTORY)}</ol>
 </div>
 </div>
-</div></section>
-<section class="section section-sand"><div class="wrap">
-{section_head('COURSES', '講習プラン', f'<a class="more" href="{prefix}courses/">講習会案内へ →</a>')}
-<div class="grid-2">{plans_html()}</div>
 </div></section>
 {donate_band(prefix)}"""
 
@@ -736,8 +735,8 @@ def build():
 
     page("", "", "岡山・備前市で救命講習・AED講習なら日本臨床ライフサポート協会へ。現役の看護師・医師など医療の専門職が、胸骨圧迫・AEDの使い方と心停止を防ぐ「急変回避（INARS）」を実践的に指導します。学校・企業・スポーツチームへの出張講習も。",
          top, "", full_title=f"{ORG_NAME}｜岡山の救命講習・AED講習")
-    page("about/", "事業内容", "市民向けの救命講習「PUSHプロジェクト」、医療従事者向けの院内急変回避研修「INARSコース」、マラソン大会等での救護ボランティアなど、日本臨床ライフサポート協会の事業内容です。",
-         about, "about", [breadcrumb_ld([("トップ", ""), ("事業内容", "about/")])])
+    page("about/", "協会について", "日本臨床ライフサポート協会の代表理事あいさつ、事業内容（市民向け救命講習「PUSHプロジェクト」、医療従事者向け「INARSコース」、救護ボランティア）、協会概要と沿革です。",
+         about, "about", [breadcrumb_ld([("トップ", ""), ("協会について", "about/")])])
     page("courses/", "市民向け講習会", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
          courses, "courses", courses_ld() + [faq_ld(), breadcrumb_ld([("トップ", ""), ("市民向け講習会", "courses/")])])
     page("inars/", "INARSコース 開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。中国・四国を拠点に全国で開催するコースの日程と、MeCCSO申込ページへのご案内です。",
