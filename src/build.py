@@ -4,6 +4,7 @@ import datetime
 import html
 import json
 import os
+import re
 import shutil
 import sys
 
@@ -167,8 +168,23 @@ def page(path, title, description, body, current="", ld=None, og_type="website",
 </body>
 </html>
 """
-    write(path, doc)
+    write(path, external_tabs(doc))
     written.append(path)
+
+
+EXT_RE = re.compile(r'<a ([^>]*?)href="(https?://[^"]+)"([^>]*)>(.*?)</a>', re.S)
+
+
+def external_tabs(doc):
+    """外部サイトへのリンクは新しいタブで開く（申込フォームの入力中でも元のページが残るように）。"""
+    def fix(m):
+        before, url, after, inner = m.groups()
+        if url.startswith(SITE_URL) or "target=" in before + after:
+            return m.group(0)
+        attrs = (before + after).replace('rel="noopener"', "").strip()
+        attrs = (" " + " ".join(attrs.split())) if attrs else ""
+        return f'<a href="{url}"{attrs} target="_blank" rel="noopener">{inner}<span class="sr-only">（新しいタブで開きます）</span></a>'
+    return EXT_RE.sub(fix, doc)
 
 
 def write(path, text):
