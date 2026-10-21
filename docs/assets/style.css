@@ -378,3 +378,6 @@ p { margin: 0; }
 .footer-col:nth-of-type(2) { grid-column: 5 / span 3; }
 .footer-col:nth-of-type(2) a { white-space: nowrap; }
 @media (max-width: 960px) { .footer-col:nth-of-type(2) { grid-column: 1 / -1; } }
+/* 講習プラン：メイン（90分）はラベルの色だけで示す。枠は強調しない */
+.plan-featured { border-color: var(--line); }
+.plan-featured .plan-note { color: var(--muted); font-weight: 400; }
