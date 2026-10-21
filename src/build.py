@@ -8,7 +8,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -701,6 +701,24 @@ def inars_row(c, past):
 </article>"""
 
 
+def ws_html(prefix):
+    up = sorted([w for w in INARS_WORKSHOPS if w["date"] >= TODAY], key=lambda w: w["date"])
+    rows = []
+    for w in up:
+        d = datetime.date.fromisoformat(w["date"])
+        st = '<span class="status status-done">満席</span>' if w.get("full") else '<span class="status status-open">受付中</span>'
+        rows.append(f'<tr><td class="num">{d.year}.{d.month:02d}.{d.day:02d}（{WEEK[d.weekday()]}）<br>{esc(w["time"])}</td>'
+                    f'<td>{st}<br>{esc(w["title"])}</td><td>{esc(w["place"])}</td>'
+                    f'<td><a href="{w["url"]}" rel="noopener">詳細（MeCCSO）</a></td></tr>')
+    table = (f'<div class="table-scroll" style="margin-top:28px"><table class="record"><thead><tr><th>開催日</th><th>ワークショップ</th><th>会場</th><th>詳細</th></tr></thead>'
+             f'<tbody>{"".join(rows)}</tbody></table></div>') if rows else ""
+    return f"""<section class="section" id="instructor"><div class="wrap">
+{section_head('INSTRUCTOR', 'インストラクターを目指す方へ', f'<a class="more" href="{INARS_WS_LIST_URL}" rel="noopener">全国のワークショップ一覧（MeCCSO）→</a>')}
+<p style="max-width:52em;color:var(--ink-2)">INARSの指導者養成ワークショップでは、午前中に指導方法を学び、午後は同じ日のINARSコースにインストラクターとして参加します。中国・四国で開催されるワークショップの日程をご案内します。お申し込みにはMeCCSOのアカウント作成が必要です。</p>
+{table}
+</div></section>"""
+
+
 def inars(prefix):
     upcoming = sorted([c for c in INARS_COURSES if c["date"] >= TODAY], key=lambda c: c["date"])
     past = sorted([c for c in INARS_COURSES if c["date"] < TODAY], key=lambda c: c["date"], reverse=True)
@@ -732,6 +750,8 @@ def inars(prefix):
 </div>
 </div>
 </div></section>
+
+{ws_html(prefix)}
 
 <section class="section section-paper"><div class="wrap">
 {section_head('HOST', '院内開催のご相談')}

@@ -252,6 +252,24 @@ INARS_COURSES = [
     },
 ]
 
+# ---------------- INARS指導者養成ワークショップ（開催を支援しているもの） ----------------
+# url は MeCCSO のワークショップ詳細ページ。full=True で「満席」表示。
+INARS_WS_LIST_URL = "https://meccso.jp/inars/ws.html"
+INARS_WORKSHOPS = [
+    {"date": "2026-11-28", "time": "8:00〜12:30", "title": "第42回鳥取INARS指導者養成ワークショップ",
+     "place": "鳥取大学医学部附属病院（鳥取県米子市）", "full": True,
+     "url": "https://meccso.jp/inars/ws/475-di42hui-niao-quinars-zhi-dao-zhe-yang-chengwakushoppu.html"},
+    {"date": "2026-12-05", "time": "8:00〜12:30", "title": "第11回徳島INARS指導者養成ワークショップ",
+     "place": "つるぎ町立半田病院（徳島県つるぎ町）",
+     "url": "https://meccso.jp/inars/ws/479-di11hui-de-daoinars-zhi-dao-zhe-yang-chengwakushoppu.html"},
+    {"date": "2026-12-06", "time": "8:00〜12:30", "title": "第3回香川INARS指導者養成ワークショップ",
+     "place": "まるがめ医療センター（香川県丸亀市）",
+     "url": "https://meccso.jp/inars/ws/463-di3hui-xiang-chuaninars-zhi-dao-zhe-yang-chengwakushoppu.html"},
+    {"date": "2027-01-16", "time": "8:00〜12:30", "title": "第12回徳島INARS指導者養成ワークショップ",
+     "place": "徳島県立中央病院（徳島県徳島市）",
+     "url": "https://meccso.jp/inars/ws/480-di12hui-de-daoinars-zhi-dao-zhe-yang-chengwakushoppu.html"},
+]
+
 # ---------------- 沿革（事業内容ページ） ----------------
 FOUNDED = "2025年4月24日"
 HISTORY = [
