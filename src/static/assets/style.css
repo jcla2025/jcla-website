@@ -381,3 +381,13 @@ p { margin: 0; }
 /* 講習プラン：メイン（90分）はラベルの色だけで示す。枠は強調しない */
 .plan-featured { border-color: var(--line); }
 .plan-featured .plan-note { color: var(--muted); font-weight: 400; }
+.record.compare td:last-child { white-space: normal; font-weight: 400; }
+.record.compare td:first-child { white-space: nowrap; }
+@media (max-width: 640px) {
+  .record.compare { display: table; min-width: 620px; }
+  .record.compare thead { display: table-header-group; }
+  .record.compare tbody { display: table-row-group; }
+  .record.compare tr { display: table-row; padding: 0; }
+  .record.compare td, .record.compare th { display: table-cell; width: auto; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  .record.compare td:nth-child(3) { font-size: inherit; color: inherit; }
+}

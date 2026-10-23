@@ -70,7 +70,7 @@ def breadcrumb_ld(items):
 
 
 def header(prefix, current):
-    items = [("about/", "協会について"), ("courses/", "救命講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("contact/#donate", "ご寄付")]
+    items = [("about/", "協会について"), ("courses/", "救命講習会"), ("inars/", "INARSコース"), ("reports/", "活動報告"), ("support/", "ご支援")]
     cur = ' aria-current="page"'
     links = "".join(
         f'<a href="{prefix}{href}"{cur if current and "#" not in href and current == href.split("/")[0] else ""}>{label}</a>'
@@ -103,7 +103,7 @@ def footer(prefix):
 </div>
 <div class="footer-col">
 <h2>サイト</h2>
-<a href="{prefix}about/">協会について</a><a href="{prefix}courses/">救命講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}contact/#donate">ご寄付</a>
+<a href="{prefix}about/">協会について</a><a href="{prefix}courses/">救命講習会</a><a href="{prefix}inars/">INARSコース</a><a href="{prefix}reports/">活動報告</a><a href="{prefix}contact/">お申し込み・お問い合わせ</a><a href="{prefix}support/">ご支援のお願い</a>
 </div>
 <div class="footer-col">
 <h2>SNS</h2>{sns}
@@ -384,8 +384,8 @@ def message_section(prefix):
 def donate_band(prefix):
     return f"""<section class="donate" id="donate-band">
 <div class="wrap">
-<div><h2>ご寄付のお願い</h2><p>私たちの活動は、皆様の温かいご支援・ご寄付によって支えられています。お寄せいただいたご寄付は、講習活動の維持・拡大と救命資器材の充実のために大切に使わせていただきます。</p></div>
-<a class="btn btn-light" href="{prefix}contact/#donate">寄付について問い合わせる</a>
+<div><h2>ご支援のお願い</h2><p>私たちの活動は、皆様の温かいご支援によって支えられています。ご寄付・賛助会員・基金の3つの方法で、活動を応援していただけます。</p></div>
+<a class="btn btn-light" href="{prefix}support/">ご支援の方法を見る</a>
 </div>
 </section>"""
 
@@ -671,11 +671,105 @@ def contact(prefix):
 </div></section>
 
 <section class="section section-sand" id="donate"><div class="wrap prose" style="max-width:860px">
-<h2 style="margin-top:0">ご寄付のお願い</h2>
-<p>私たちの活動は、皆様からの温かいご支援・ご寄付によって支えられています。お寄せいただいた寄付金は、講習活動の維持・拡大、救命資器材の充実のために大切に使用させていただきます。</p>
-<p>「救える命を、救える社会に」していくため、皆様のご理解とご協力を心よりお願い申し上げます。</p>
-<p><a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj_don}">寄付について問い合わせる</a></p>
-<p style="font-size:14px;color:var(--muted)">メール：{EMAIL}</p>
+<h2 style="margin-top:0">ご寄付・賛助会員について</h2>
+<p>ご寄付・賛助会員・基金によるご支援の方法は、「ご支援のお願い」のページにまとめています。</p>
+<p><a class="btn btn-primary" href="{prefix}support/">ご支援のお願いを見る {ARROW}</a></p>
+</div></section>"""
+
+
+def support(prefix):
+    from urllib.parse import quote
+    m_don = quote("ご寄付について")
+    m_mem = quote("賛助会員の入会について")
+    m_fund = quote("基金について")
+    def mail_btn(subj, label, cls="btn-primary"):
+        return f'<a class="btn {cls}" href="mailto:{EMAIL}?subject={subj}">{label}</a>'
+    return f"""<section class="page-hero"><div class="wrap">
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ ご支援のお願い</p>
+<h1>ご支援のお願い</h1>
+<p class="lead">私たちの活動を支えてください。ご支援の方法は「ご寄付」「賛助会員」「基金」の3つです。</p>
+<nav class="page-index" aria-label="このページの内容"><a href="#donation">ご寄付</a><a href="#member">賛助会員</a><a href="#fund">基金</a></nav>
+</div></section>
+
+<section class="section"><div class="wrap">
+<div class="prose" style="max-width:860px">
+<p>一般社団法人日本臨床ライフサポート協会は、心肺蘇生法（CPR）とAEDの使い方を、医療従事者から一般の方、子どもたちまで幅広く伝えてきました。</p>
+<p>岡山県備前市を拠点に、赤磐市・岡山市・倉敷市などで講習会を開いています。目の前で倒れた人を救える人を、一人でも多く地域に増やすことが私たちの願いです。活動を続け、広げていくために、皆さまのご支援をお願いいたします。</p>
+</div>
+<h2 class="h2" style="margin:56px 0 24px">3つのご支援の方法</h2>
+<div class="table-scroll"><table class="record compare">
+<thead><tr><th>方法</th><th>支援の形</th><th>金額</th><th>お金の返還</th><th>こんな方に</th></tr></thead>
+<tbody>
+<tr><td><a href="#donation"><b>ご寄付</b></a></td><td>1回ごとのご支援</td><td>自由</td><td>返還しません</td><td>気軽に一度応援したい方</td></tr>
+<tr><td><a href="#member"><b>賛助会員</b></a></td><td>年会費による継続的なご支援</td><td>個人：入会金5,000円＋年会費1口5,000円<br>団体・法人：入会金10,000円＋年会費1口10,000円</td><td>返還しません</td><td>継続して支えたい個人・病院・企業の方</td></tr>
+<tr><td><a href="#fund"><b>基金</b></a></td><td>活動の土台となる資金をお預かり</td><td>募集のたびにお知らせ</td><td>協会の解散時に返還（利息なし）</td><td>まとまった資金で活動を支えたい方</td></tr>
+</tbody></table></div>
+<p style="margin-top:16px;font-size:14px;color:var(--muted)">いずれのご支援も、税制上の寄付金控除の対象にはなりませんのでご了承ください。</p>
+</div></section>
+
+<section class="section section-paper" id="donation"><div class="wrap prose" style="max-width:860px">
+<h2 style="margin-top:0">ご寄付</h2>
+<p>金額にかかわらず、1回ごとのご支援を受け付けています。いただいたご寄付は、次のような活動に大切に使わせていただきます。</p>
+<ul>
+<li>講習用の訓練人形・AEDトレーナーの購入と更新</li>
+<li>学校や地域での無料講習会の開催</li>
+<li>講習の指導者（インストラクター）の育成</li>
+<li>教材・資料の作成</li>
+</ul>
+<h3>ご寄付の方法</h3>
+<ol>
+<li>{EMAIL} まで、お名前とご連絡先をお知らせください。</li>
+<li>協会からお振込先をご案内します。振込手数料はご負担をお願いいたします。</li>
+<li>お振込みを確認したら、お礼のご連絡をいたします。領収書が必要な方は、その旨もお書き添えください。</li>
+</ol>
+<p>{mail_btn(m_don, "寄付についてメールする")}</p>
+</div></section>
+
+<section class="section" id="member"><div class="wrap prose" style="max-width:860px">
+<h2 style="margin-top:0">賛助会員</h2>
+<p>協会の活動に賛同し、継続して支えてくださる個人・団体の方を募集しています。病院や企業など、法人でのご入会も歓迎します。</p>
+<table class="info-table">
+<tr><th>個人</th><td>入会金 5,000円／年会費 1口5,000円（1口以上）</td></tr>
+<tr><th>団体・法人</th><td>入会金 10,000円／年会費 1口10,000円（1口以上）</td></tr>
+</table>
+<h3>お申込み方法</h3>
+<ol>
+<li>{EMAIL} まで「賛助会員の入会希望」とお知らせください。入会申込書をお送りします。</li>
+<li>申込書をお送りいただくと、協会から入会のご案内と、入会金・年会費のお振込先をお知らせします。</li>
+<li>お振込みの確認をもって入会となります。</li>
+</ol>
+<p>お納めいただいた入会金・年会費は、返還いたしませんのでご了承ください。</p>
+<p>{mail_btn(m_mem, "入会についてメールする")}</p>
+</div></section>
+
+<section class="section section-sand" id="fund"><div class="wrap prose" style="max-width:860px">
+<h2 style="margin-top:0">基金</h2>
+<p>基金は、協会の定款（第34条〜第36条）に定めた制度です。活動の土台となる資金をお預かりし、協会が解散するときにお返しします。ご寄付と違い、協会の収入ではなく「お預かりするお金」として扱います。</p>
+<h3>基金のきまり</h3>
+<ul>
+<li>お預かりした基金は、協会が解散するまでお返ししません。</li>
+<li>返還は解散後の清算のときに、協会のほかの債務を支払ったあとで行います。</li>
+<li>利息はつきません。お預かりした額を超えてお返しすることもありません。</li>
+<li>返還を受ける権利は、社員総会の同意がない限り、譲渡や質入れなどはできません。</li>
+</ul>
+<h3>お申込みの流れ</h3>
+<ol>
+<li>まずは {EMAIL} までご相談ください。</li>
+<li>協会から募集要項（募集額・払込期日など）をお送りします。</li>
+<li>申込書をご提出ください。</li>
+<li>協会から、お引き受けいただく額（割当）をお知らせします。</li>
+<li>期日までにお振込みください。</li>
+<li>協会から受領書をお送りします。</li>
+</ol>
+<p>基金の募集は、ご相談をいただいたうえで個別に行っています。</p>
+<p>{mail_btn(m_fund, "基金について相談する")}</p>
+</div></section>
+
+<section class="section"><div class="wrap prose" style="max-width:860px">
+<h2 style="margin-top:0">お問い合わせ</h2>
+<p>一般社団法人日本臨床ライフサポート協会（岡山県備前市）</p>
+<p class="mail-line">メール：<span class="mail">{EMAIL}</span><button class="copy-btn" type="button" data-copy="{EMAIL}">コピー</button></p>
+<p>LINEでのご相談は<a href="{LINE_URL}" rel="noopener">LINE公式アカウント</a>からどうぞ。</p>
 </div></section>"""
 
 
@@ -807,6 +901,8 @@ def build():
          [breadcrumb_ld([("トップ", ""), ("活動報告", "reports/")])])
     for i, r in enumerate(reports_sorted):
         report_page(r, i)
+    page("support/", "ご支援のお願い", "日本臨床ライフサポート協会へのご支援のお願い。ご寄付・賛助会員（個人・団体）・基金の3つの方法と、お申し込みの流れをご案内します。",
+         support, "support", [breadcrumb_ld([("トップ", ""), ("ご支援のお願い", "support/")])])
     page("contact/", "お申し込み・お問い合わせ", "救命講習会への参加、出張講習・院内開催のご依頼、INARSコースのお申し込み、ご寄付のお問い合わせはこちら。メールまたはLINEで受け付けています。",
          contact, "contact", [breadcrumb_ld([("トップ", ""), ("お申し込み・お問い合わせ", "contact/")])])
 
@@ -818,9 +914,9 @@ def build():
     t = t.replace('href="assets/', f'href="{SITE_URL}/assets/').replace('src="assets/', f'src="{SITE_URL}/assets/') \
          .replace('href="favicon.png"', f'href="{SITE_URL}/favicon.png"').replace('href="apple-touch-icon.png"', f'href="{SITE_URL}/apple-touch-icon.png"')
     t = t.replace('<meta name="viewport"', '<meta name="robots" content="noindex">\n<meta name="viewport"')
-    for p in ["about/", "courses/", "inars/", "reports/", "contact/"]:
+    for p in ["about/", "courses/", "inars/", "reports/", "contact/", "support/"]:
         t = t.replace(f'href="{p}', f'href="{SITE_URL}/{p}')
-    t = t.replace('href="contact/#donate"', f'href="{SITE_URL}/contact/#donate"').replace('class="brand" href=""', f'class="brand" href="{SITE_URL}/"')
+    t = t.replace('class="brand" href=""', f'class="brand" href="{SITE_URL}/"')
     with open(os.path.join(OUT, "404.html"), "w", encoding="utf-8") as f:
         f.write(t)
 
