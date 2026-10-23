@@ -396,3 +396,4 @@ p { margin: 0; }
 .info-table.bank td { font-variant-numeric: tabular-nums; }
 .prose .faq ul, .prose .faq ol { margin-bottom: 12px; }
 @media (max-width: 640px) { .info-table.bank td:first-child { width: 7.5em; white-space: normal; } }
+.info-table.bank + .info-table.bank { margin-top: 16px; }

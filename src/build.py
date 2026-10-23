@@ -685,6 +685,12 @@ def support(prefix):
     def mail_btn(subj, label):
         return f'<a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj}">{label}</a>'
     bank = f"""<table class="info-table bank">
+<tr><th colspan="2">三井住友銀行</th></tr>
+<tr><td>支店</td><td>トランクNORTH支店（店番号 403）</td></tr>
+<tr><td>口座</td><td>普通預金　口座番号 0724022</td></tr>
+<tr><td>口座名義</td><td>シャ）ニホンリンショウライフサポートキョウカイ</td></tr>
+</table>
+<table class="info-table bank">
 <tr><th colspan="2">ゆうちょ銀行</th></tr>
 <tr><td>ゆうちょ銀行から</td><td>記号 15460　番号 40142831</td></tr>
 <tr><td>他の金融機関から</td><td>店名 五四八（ゴヨンハチ）　店番 548<br>普通預金　口座番号 4014283</td></tr>
