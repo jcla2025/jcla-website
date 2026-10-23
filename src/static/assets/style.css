@@ -391,3 +391,8 @@ p { margin: 0; }
   .record.compare td, .record.compare th { display: table-cell; width: auto; padding: 10px 12px; border-bottom: 1px solid var(--line); }
   .record.compare td:nth-child(3) { font-size: inherit; color: inherit; }
 }
+.info-table.bank th[colspan] { width: auto; background: var(--navy); color: #FFFFFF; }
+.info-table.bank td:first-child { width: 9.5em; background: var(--sand); font-weight: 700; white-space: nowrap; font-size: 15px; }
+.info-table.bank td { font-variant-numeric: tabular-nums; }
+.prose .faq ul, .prose .faq ol { margin-bottom: 12px; }
+@media (max-width: 640px) { .info-table.bank td:first-child { width: 7.5em; white-space: normal; } }

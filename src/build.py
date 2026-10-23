@@ -682,21 +682,22 @@ def support(prefix):
     m_don = quote("ご寄付について")
     m_mem = quote("賛助会員の入会について")
     m_fund = quote("基金について")
-    def mail_btn(subj, label, cls="btn-primary"):
-        return f'<a class="btn {cls}" href="mailto:{EMAIL}?subject={subj}">{label}</a>'
+    def mail_btn(subj, label):
+        return f'<a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj}">{label}</a>'
+    bank = f"""<table class="info-table bank">
+<tr><th colspan="2">ゆうちょ銀行</th></tr>
+<tr><td>ゆうちょ銀行から</td><td>記号 15460　番号 40142831</td></tr>
+<tr><td>他の金融機関から</td><td>店名 五四八（ゴヨンハチ）　店番 548<br>普通預金　口座番号 4014283</td></tr>
+<tr><td>口座名義</td><td>シャ）ニホンリンショウライフサポートキョウカイ</td></tr>
+</table>"""
     return f"""<section class="page-hero"><div class="wrap">
 <p class="breadcrumb"><a href="{prefix}">トップ</a> ／ ご支援のお願い</p>
 <h1>ご支援のお願い</h1>
-<p class="lead">私たちの活動を支えてください。ご支援の方法は「ご寄付」「賛助会員」「基金」の3つです。</p>
+<p class="lead">救える人を地域に一人でも増やす活動を続けるために、皆さまのご支援をお願いいたします。ご支援の方法は「ご寄付」「賛助会員」「基金」の3つです。</p>
 <nav class="page-index" aria-label="このページの内容"><a href="#donation">ご寄付</a><a href="#member">賛助会員</a><a href="#fund">基金</a></nav>
 </div></section>
 
 <section class="section"><div class="wrap">
-<div class="prose" style="max-width:860px">
-<p>一般社団法人日本臨床ライフサポート協会は、心肺蘇生法（CPR）とAEDの使い方を、医療従事者から一般の方、子どもたちまで幅広く伝えてきました。</p>
-<p>岡山県備前市を拠点に、赤磐市・岡山市・倉敷市などで講習会を開いています。目の前で倒れた人を救える人を、一人でも多く地域に増やすことが私たちの願いです。活動を続け、広げていくために、皆さまのご支援をお願いいたします。</p>
-</div>
-<h2 class="h2" style="margin:56px 0 24px">3つのご支援の方法</h2>
 <div class="table-scroll"><table class="record compare">
 <thead><tr><th>方法</th><th>支援の形</th><th>金額</th><th>お金の返還</th><th>こんな方に</th></tr></thead>
 <tbody>
@@ -716,12 +717,9 @@ def support(prefix):
 <li>講習の指導者（インストラクター）の育成</li>
 <li>教材・資料の作成</li>
 </ul>
-<h3>ご寄付の方法</h3>
-<ol>
-<li>{EMAIL} まで、お名前とご連絡先をお知らせください。</li>
-<li>協会からお振込先をご案内します。振込手数料はご負担をお願いいたします。</li>
-<li>お振込みを確認したら、お礼のご連絡をいたします。領収書が必要な方は、その旨もお書き添えください。</li>
-</ol>
+<h3>お振込先</h3>
+{bank}
+<p>お振込みのあと、お名前とご連絡先を {EMAIL} までお知らせください。お礼のご連絡をいたします。領収書が必要な方はその旨もお書き添えください。振込手数料はご負担をお願いいたします。</p>
 <p>{mail_btn(m_don, "寄付についてメールする")}</p>
 </div></section>
 
@@ -735,7 +733,7 @@ def support(prefix):
 <h3>お申込み方法</h3>
 <ol>
 <li>{EMAIL} まで「賛助会員の入会希望」とお知らせください。入会申込書をお送りします。</li>
-<li>申込書をお送りいただくと、協会から入会のご案内と、入会金・年会費のお振込先をお知らせします。</li>
+<li>申込書をお送りいただいたあと、入会金・年会費を<a href="#donation">上記のお振込先</a>へお振込みください。</li>
 <li>お振込みの確認をもって入会となります。</li>
 </ol>
 <p>お納めいただいた入会金・年会費は、返還いたしませんのでご了承ください。</p>
@@ -744,32 +742,26 @@ def support(prefix):
 
 <section class="section section-sand" id="fund"><div class="wrap prose" style="max-width:860px">
 <h2 style="margin-top:0">基金</h2>
-<p>基金は、協会の定款（第34条〜第36条）に定めた制度です。活動の土台となる資金をお預かりし、協会が解散するときにお返しします。ご寄付と違い、協会の収入ではなく「お預かりするお金」として扱います。</p>
-<h3>基金のきまり</h3>
+<p>基金は、協会の定款に定めた制度です。活動の土台となる資金をお預かりし、協会が解散するときに利息なしでお返しします。ご寄付と違い、協会の収入ではなく「お預かりするお金」として扱います。募集はご相談をいただいたうえで個別に行っています。</p>
+<div class="faq">
+<details><summary>基金のきまりとお申込みの流れ</summary>
+<p><b>きまり</b></p>
 <ul>
 <li>お預かりした基金は、協会が解散するまでお返ししません。</li>
 <li>返還は解散後の清算のときに、協会のほかの債務を支払ったあとで行います。</li>
 <li>利息はつきません。お預かりした額を超えてお返しすることもありません。</li>
 <li>返還を受ける権利は、社員総会の同意がない限り、譲渡や質入れなどはできません。</li>
 </ul>
-<h3>お申込みの流れ</h3>
+<p><b>お申込みの流れ</b></p>
 <ol>
-<li>まずは {EMAIL} までご相談ください。</li>
+<li>{EMAIL} までご相談ください。</li>
 <li>協会から募集要項（募集額・払込期日など）をお送りします。</li>
-<li>申込書をご提出ください。</li>
-<li>協会から、お引き受けいただく額（割当）をお知らせします。</li>
-<li>期日までにお振込みください。</li>
-<li>協会から受領書をお送りします。</li>
+<li>申込書をご提出ください。協会から、お引き受けいただく額（割当）をお知らせします。</li>
+<li>期日までにお振込みいただくと、協会から受領書をお送りします。</li>
 </ol>
-<p>基金の募集は、ご相談をいただいたうえで個別に行っています。</p>
+</details>
+</div>
 <p>{mail_btn(m_fund, "基金について相談する")}</p>
-</div></section>
-
-<section class="section"><div class="wrap prose" style="max-width:860px">
-<h2 style="margin-top:0">お問い合わせ</h2>
-<p>一般社団法人日本臨床ライフサポート協会（岡山県備前市）</p>
-<p class="mail-line">メール：<span class="mail">{EMAIL}</span><button class="copy-btn" type="button" data-copy="{EMAIL}">コピー</button></p>
-<p>LINEでのご相談は<a href="{LINE_URL}" rel="noopener">LINE公式アカウント</a>からどうぞ。</p>
 </div></section>"""
 
 
