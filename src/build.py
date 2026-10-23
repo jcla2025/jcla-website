@@ -767,6 +767,7 @@ def support(prefix):
 </ol>
 </details>
 </div>
+<p>土地・建物など、金銭以外のご寄付・ご拠出をお考えの方も、まずはご相談ください。</p>
 <p>{mail_btn(m_fund, "基金について相談する")}</p>
 </div></section>"""
 
