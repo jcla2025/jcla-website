@@ -9,7 +9,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (KODOMO_CARD_URL, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -682,6 +682,11 @@ def support(prefix):
     m_don = quote("ご寄付について")
     m_mem = quote("賛助会員の入会について")
     m_fund = quote("基金について")
+    m_kodomo = quote("こども救命教育募金について")
+    if KODOMO_CARD_URL:
+        card_btn = f'<a class="btn btn-primary" href="{KODOMO_CARD_URL}" target="_blank" rel="noopener">クレジットカードで寄付する</a>'
+    else:
+        card_btn = '<span class="btn btn-outline" aria-disabled="true" style="opacity:.6;cursor:default">クレジットカードでの寄付（準備中）</span>'
     def mail_btn(subj, label):
         return f'<a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj}">{label}</a>'
     bank = f"""<table class="info-table bank">
@@ -700,7 +705,7 @@ def support(prefix):
 <p class="breadcrumb"><a href="{prefix}">トップ</a> ／ ご支援のお願い</p>
 <h1>ご支援のお願い</h1>
 <p class="lead">救える人を地域に一人でも増やす活動を続けるために、皆さまのご支援をお願いいたします。ご支援の方法は「ご寄付」「賛助会員」「基金」の3つです。</p>
-<nav class="page-index" aria-label="このページの内容"><a href="#donation">ご寄付</a><a href="#member">賛助会員</a><a href="#fund">基金</a></nav>
+<nav class="page-index" aria-label="このページの内容"><a href="#donation">ご寄付</a><a href="#kodomo">こども救命教育募金</a><a href="#member">賛助会員</a><a href="#fund">基金</a></nav>
 </div></section>
 
 <section class="section"><div class="wrap">
@@ -708,6 +713,7 @@ def support(prefix):
 <thead><tr><th>方法</th><th>支援の形</th><th>金額</th><th>お金の返還</th><th>こんな方に</th></tr></thead>
 <tbody>
 <tr><td><a href="#donation"><b>ご寄付</b></a></td><td>1回ごとのご支援</td><td>自由</td><td>返還しません</td><td>気軽に一度応援したい方</td></tr>
+<tr><td><a href="#kodomo"><b>こども救命教育募金</b></a></td><td>子ども向け救命教育に使い道を限ったご寄付</td><td>2,500円から目安あり</td><td>返還しません</td><td>子どもたちに救命を届けたい方</td></tr>
 <tr><td><a href="#member"><b>賛助会員</b></a></td><td>年会費による継続的なご支援</td><td>個人：入会金5,000円＋年会費1口5,000円<br>団体・法人：入会金10,000円＋年会費1口10,000円</td><td>返還しません</td><td>継続して支えたい個人・病院・企業の方</td></tr>
 <tr><td><a href="#fund"><b>基金</b></a></td><td>活動の土台となる資金をお預かり</td><td>募集のたびにお知らせ</td><td>協会の解散時に返還（利息なし）</td><td>まとまった資金で活動を支えたい方</td></tr>
 </tbody></table></div>
@@ -727,6 +733,37 @@ def support(prefix):
 {bank}
 <p>お振込みのあと、お名前とご連絡先を {EMAIL} までお知らせください。お礼のご連絡をいたします。領収書が必要な方はその旨もお書き添えください。振込手数料はご負担をお願いいたします。</p>
 <p>{mail_btn(m_don, "寄付についてメールする")}</p>
+</div></section>
+
+<section class="section" id="kodomo"><div class="wrap prose" style="max-width:860px">
+<h2 style="margin-top:0">こども救命教育募金</h2>
+<p class="lead" style="margin-top:0">子どもたちに「命をつなぐ力」を届けるために</p>
+<p>学校や地域の子どもたちに、救命講習を無料で届けるための募金です。使い道を子ども向けの救命教育に限ったご寄付として、ほかのお金と分けて管理します。</p>
+<h3>なぜ子どもたちに届けたいのか</h3>
+<p>突然の心停止は、学校でも、家庭でも、通学路でも起こります。救急車が着くまでの数分間、そばにいる人が胸骨圧迫とAEDを行えるかどうかが、命を左右します。子どものうちに救命を学んだ経験は一生の力になり、学んだ子どもたちが家族に伝えることで、地域の「助けられる人」が増えていきます。視覚に障がいのある子どもたちが学ぶ学校も含め、すべての子どもが救命を学べる機会をつくりたいと考えています。</p>
+<h3>ご寄付でできること</h3>
+<table class="info-table">
+<tr><th>2,500円</th><td>PUSH練習キット1個（子ども1人分）</td></tr>
+<tr><th>10,000円</th><td>PUSH練習キット4個</td></tr>
+<tr><th>50,000円</th><td>PUSH練習キット20個（1クラス分）、または訓練用マネキン1体</td></tr>
+<tr><th>60,000円</th><td>AEDトレーナー1台</td></tr>
+</table>
+<h3>今年度の目標</h3>
+<p><b>目標額 30万円</b>（2027年7月まで）<br>2027年7月までに、県内の学校3校で無料の救命講習を開催します。</p>
+<ul>
+<li>PUSH練習キット40個（2クラス分）… 10万円</li>
+<li>訓練用マネキン2体 … 10万円</li>
+<li>AEDトレーナー1台 … 6万円</li>
+<li>出張講習の交通費・準備費 … 4万円</li>
+</ul>
+<h3>寄付の方法</h3>
+<p><b>クレジットカード</b>　スマートフォンから数分で手続きできます。1回だけのご寄付も歓迎です。</p>
+<p>{card_btn}</p>
+<p><b>銀行振込</b>　<a href="#donation">上記のお振込先</a>へお振込みください。お振込みの際は、お名前の前に<b>「コドモ」</b>とご入力ください（例：コドモ ヤマダタロウ）。</p>
+<h3>使い道のご報告</h3>
+<p>いただいたご寄付の使い道と、講習を届けた学校・人数は、毎年度の活動報告としてこのホームページで公開します。</p>
+<p style="font-size:14px;color:var(--muted)">この募金は返還のないご寄付です（下の「基金」とは別の制度です）。税制上の寄付金控除の対象にはなりません。</p>
+<p>{mail_btn(m_kodomo, "募金についてメールする")}</p>
 </div></section>
 
 <section class="section" id="member"><div class="wrap prose" style="max-width:860px">

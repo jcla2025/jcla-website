@@ -8,6 +8,7 @@ ORG_NAME = "一般社団法人日本臨床ライフサポート協会"
 ORG_SHORT = "日本臨床ライフサポート協会"
 EMAIL = "info@japan-clinical-lifesupport.org"
 LINE_URL = "https://line.me/R/ti/p/@053epnrj"
+KODOMO_CARD_URL = ""  # こども救命教育募金のクレジットカード寄付ページ（CONGRANT公開後にURLを入れる）
 VOLUNTEER_URL = "https://x.gd/QW4lP"  # 講習会の指導ボランティア募集フォーム
 SNS = {
     "Instagram": "https://www.instagram.com/japan_clinical_ls/",
