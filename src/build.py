@@ -457,20 +457,30 @@ def event_html(e, past):
 </article>"""
 
 
+def ld_dates(date, time):
+    """「13:00〜18:30」から startDate / endDate を作る（終了時刻がなければ開始と同日）"""
+    parts = [p.strip().zfill(5) if p.strip() else "" for p in (time or "").split("〜")]
+    start = parts[0] if parts and parts[0] else "00:00"
+    d = {"startDate": f"{date}T{start}:00+09:00"}
+    d["endDate"] = f"{date}T{parts[1]}:00+09:00" if len(parts) > 1 and parts[1] else d["startDate"]
+    return d
+
+
 def courses_ld():
     out = []
     for e in EVENTS:
         if e["date"] < TODAY:
             continue
-        start = e.get("time", "").split("〜")[0] or "00:00"
         out.append({
             "@context": "https://schema.org", "@type": "Event", "name": e["title"],
-            "startDate": f"{e['date']}T{start}:00+09:00",
+            **ld_dates(e["date"], e.get("time")),
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
             "location": {"@type": "Place", "name": e["place"], "address": e["place"]},
             "description": e["text"],
+            "image": [SITE_URL + "/assets/og.png"],
             "organizer": {"@type": "Organization", "name": ORG_NAME, "url": SITE_URL + "/"},
+            "performer": {"@type": "Organization", "name": ORG_NAME},
         })
     return out
 
@@ -814,15 +824,17 @@ def inars_ld():
     for c in INARS_COURSES:
         if c["date"] < TODAY:
             continue
-        start = (c.get("time") or "").split("〜")[0] or "00:00"
         out.append({
             "@context": "https://schema.org", "@type": "Event", "name": c["title"],
-            "startDate": f"{c['date']}T{start}:00+09:00",
+            **ld_dates(c["date"], c.get("time")),
             "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
             "location": {"@type": "Place", "name": c["place"], "address": c["place"]},
             "description": "医療従事者向けの院内急変回避研修（INARSコース）",
-            **({"offers": {"@type": "Offer", "url": c["url"], "availability": "https://schema.org/InStock"}} if c.get("url") else {}),
+            "image": [SITE_URL + "/assets/og.png"],
+            "performer": {"@type": "Organization", "name": "INARSコース インストラクター"},
+            # 受講料はサイトに載せない方針のため offers（価格情報）は付けず、申込ページは url で示す
+            **({"url": c["url"]} if c.get("url") else {}),
         })
     return out
 
