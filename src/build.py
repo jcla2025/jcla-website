@@ -9,7 +9,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (KODOMO_CARD_URL, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (KODOMO_CARD_URL, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -632,10 +632,71 @@ def report_page(r, i):
     page(f"reports/{r['slug']}/", r["title"], r["excerpt"], body, "reports", ld, og_type="article")
 
 
+CONTACT_TOPICS = ["出張講習・院内開催のご依頼", "講習会についてのご質問", "ご寄付・賛助会員について", "その他（取材など）"]
+SUPPORT_TOPIC = "ご寄付・賛助会員について"
+
+
+def contact_form():
+    """お問い合わせフォーム。FORM_ENDPOINT（Google Apps Script）が空なら何も出さない。"""
+    if not FORM_ENDPOINT:
+        return ""
+    opts = "".join(f'<option>{esc(t)}</option>' for t in CONTACT_TOPICS)
+    return f"""<section class="section" id="form"><div class="wrap">
+<div class="form-layout">
+<div>
+<span class="eyebrow">FORM</span><h2 class="h2">お問い合わせフォーム</h2>
+<p style="margin-top:16px;color:var(--ink-2)">ご用件を選んで、わかる範囲でご記入ください。内容を確認し、ご入力のメールアドレスへ折り返しご連絡します。</p>
+<p class="hint" style="margin-top:12px">返信には数日いただくことがあります。お急ぎの場合はLINEでご連絡ください。</p>
+</div>
+<form class="cform" id="cform" novalidate>
+<label><span class="lbl">ご用件<span class="req">必須</span></span>
+<select name="topic" id="cf-topic">{opts}</select></label>
+<label><span class="lbl">団体名・学校名<span class="opt">任意</span></span><input name="org" type="text" autocomplete="organization"></label>
+<div class="row2">
+<label><span class="lbl">お名前<span class="req">必須</span></span><input name="name" type="text" autocomplete="name" required></label>
+<label><span class="lbl">お電話番号<span class="opt">任意</span></span><input name="tel" type="tel" inputmode="tel" autocomplete="tel"></label>
+</div>
+<label><span class="lbl">メールアドレス<span class="req">必須</span></span><input name="email" type="email" inputmode="email" autocomplete="email" required></label>
+<div id="cf-request" class="cf-group">
+<label><span class="lbl">ご希望の日時（候補を2〜3つ）</span><input name="dates" type="text" placeholder="例：12月の平日午後、1月10日（土）午前"></label>
+<div class="row2">
+<label><span class="lbl">受講人数・対象の方</span><input name="people" type="text" placeholder="例：教職員30名"></label>
+<label><span class="lbl">会場（住所）</span><input name="place" type="text" placeholder="例：〇〇小学校 体育館"></label>
+</div>
+</div>
+<label><span class="lbl">お問い合わせ内容<span class="req">必須</span></span><textarea name="message" rows="5" required placeholder="ご要望やご質問をご記入ください"></textarea></label>
+<input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label class="agree"><input name="agree" type="checkbox" required>入力した情報を、お問い合わせへの回答のためにのみ使うことに同意します</label>
+<button class="btn btn-primary" type="submit" id="cf-send">送信する</button>
+<p class="cf-msg" id="cf-msg" role="status" aria-live="polite"></p>
+</form>
+</div>
+</div></section>
+<script>
+(function(){{var f=document.getElementById('cform');if(!f)return;
+var t=document.getElementById('cf-topic'),g=document.getElementById('cf-request'),m=document.getElementById('cf-msg'),b=document.getElementById('cf-send');
+var p=new URLSearchParams(location.search).get('topic');if(p&&[].some.call(t.options,function(o){{return o.text===p;}}))t.value=p;
+function sw(){{g.hidden=t.selectedIndex!==0;}}t.addEventListener('change',sw);sw();
+f.addEventListener('submit',function(e){{e.preventDefault();m.className='cf-msg';
+if(!f.name.value.trim()||!f.message.value.trim()){{m.textContent='お名前とお問い合わせ内容をご記入ください。';m.classList.add('err');return;}}
+if(!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(f.email.value.trim())){{m.textContent='メールアドレスをご確認ください。';m.classList.add('err');return;}}
+if(!f.agree.checked){{m.textContent='情報の取り扱いへの同意にチェックを入れてください。';m.classList.add('err');return;}}
+b.disabled=true;b.textContent='送信しています…';
+fetch({json.dumps(FORM_ENDPOINT)},{{method:'POST',mode:'no-cors',body:new URLSearchParams(new FormData(f))}})
+.then(function(){{f.reset();sw();m.textContent='送信しました。ありがとうございます。内容を確認し、折り返しご連絡します。';m.classList.add('ok');}})
+.catch(function(){{m.textContent='送信できませんでした。お手数ですが、メールかLINEでご連絡ください。';m.classList.add('err');}})
+.then(function(){{b.disabled=false;b.textContent='送信する';}});}});}})();
+</script>"""
+
+
 def contact(prefix):
     from urllib.parse import quote
     subj_req = quote("講習のご依頼")
     subj_don = quote("ご寄付について")
+    has_form = bool(FORM_ENDPOINT)
+    req_door = ("下のフォームか、メール・LINEでご連絡ください。" if has_form
+                else "下の「ご依頼の方法」をご覧のうえ、メールかLINEでご連絡ください。")
+    req_href = "#form" if has_form else "#request"
     return f"""<section class="page-hero"><div class="wrap">
 <p class="breadcrumb"><a href="{prefix}">トップ</a> ／ お申し込み・お問い合わせ</p>
 <h1>お申し込み・お問い合わせ</h1>
@@ -645,12 +706,12 @@ def contact(prefix):
 <section class="section" style="padding-bottom:0"><div class="wrap">
 <div class="doors doors-4">
 <a class="door" href="{prefix}courses/#schedule"><span class="door-for">どなたでも・個人で</span><strong>講習会に参加したい</strong><span class="door-text">開催予定の一覧から日程を選び、各講習会の申込フォームからお申し込みください。</span><span class="door-go">日程と申込方法 {ARROW}</span></a>
-<a class="door" href="#request"><span class="door-for">学校・企業・団体・病院</span><strong>出張講習・院内開催を依頼したい</strong><span class="door-text">下の「ご依頼の方法」をご覧のうえ、メールかLINEでご連絡ください。</span><span class="door-go">ご依頼の方法 {ARROW}</span></a>
+<a class="door" href="{req_href}"><span class="door-for">学校・企業・団体・病院</span><strong>出張講習・院内開催を依頼したい</strong><span class="door-text">{req_door}</span><span class="door-go">ご依頼の方法 {ARROW}</span></a>
 <a class="door" href="{prefix}inars/#schedule"><span class="door-for">医療従事者・看護教育</span><strong>INARSコースを受けたい</strong><span class="door-text">各コースの申込はMeCCSOの申込ページで受け付けています。</span><span class="door-go">開催予定と申込 {ARROW}</span></a>
 <a class="door" href="{VOLUNTEER_URL}" rel="noopener"><span class="door-for">講習会を一緒に支えたい方</span><strong>ボランティアに参加したい</strong><span class="door-text">講習会当日の運営や準備・片付けのお手伝いです。ボランティア実績証を発行します。</span><span class="door-go">募集フォームへ {ARROW}</span></a>
 </div>
 </div></section>
-
+{contact_form()}
 <section class="section" id="request"><div class="wrap">
 <div class="request">
 <div>
@@ -698,6 +759,8 @@ def support(prefix):
     else:
         card_btn = '<span class="btn btn-outline" aria-disabled="true" style="opacity:.6;cursor:default">クレジットカードでの寄付（準備中）</span>'
     def mail_btn(subj, label):
+        if FORM_ENDPOINT:  # フォームがあるときは、ご支援の用件を選んだ状態のフォームへ
+            return f'<a class="btn btn-primary" href="{prefix}contact/?topic={quote(SUPPORT_TOPIC)}#form">{label.replace("メールする", "問い合わせる").replace("相談する", "問い合わせる")}</a>'
         return f'<a class="btn btn-primary" href="mailto:{EMAIL}?subject={subj}">{label}</a>'
     bank = f"""<table class="info-table bank">
 <tr><th colspan="2">三井住友銀行</th></tr>

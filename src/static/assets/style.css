@@ -397,3 +397,32 @@ p { margin: 0; }
 .prose .faq ul, .prose .faq ol { margin-bottom: 12px; }
 @media (max-width: 640px) { .info-table.bank td:first-child { width: 7.5em; white-space: normal; } }
 .info-table.bank + .info-table.bank { margin-top: 16px; }
+
+/* お問い合わせフォーム */
+.form-layout { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 48px; align-items: start; }
+.cform { display: flex; flex-direction: column; gap: 18px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 4vw, 36px); }
+.cform label { display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 700; color: var(--ink); }
+.cform .row2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.cform .cf-group { display: flex; flex-direction: column; gap: 18px; padding: 18px; border-radius: 14px; background: var(--ground); }
+.cform .cf-group[hidden] { display: none; }
+.cform input[type="text"], .cform input[type="email"], .cform input[type="tel"], .cform select, .cform textarea {
+  font: inherit; font-size: 16px; font-weight: 400; width: 100%; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); }
+.cform input:focus, .cform select:focus, .cform textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cform textarea { resize: vertical; min-height: 130px; }
+.cform .req, .cform .opt { display: inline-block; margin-left: 8px; font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px; vertical-align: 1px; }
+.cform .req { background: var(--accent); color: #FFFFFF; }
+.cform .opt { background: var(--sand); color: var(--muted); }
+.cform label.agree { flex-direction: row; align-items: flex-start; gap: 10px; font-weight: 400; font-size: 14px; line-height: 1.7; color: var(--ink-2); }
+.cform label.agree input { width: 20px; height: 20px; margin: 3px 0 0; flex: none; accent-color: var(--accent); }
+.cform .btn { align-self: flex-start; min-width: 200px; }
+.cform .btn:disabled { opacity: 0.6; cursor: default; }
+.cform .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.cf-msg { min-height: 1.6em; font-size: 15px; font-weight: 700; margin: 0; }
+.cf-msg.ok { color: #2E6B3A; }
+.cf-msg.err { color: var(--accent-deep); }
+@media (max-width: 860px) {
+  .form-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .cform .row2 { grid-template-columns: minmax(0, 1fr); }
+  .cform .btn { align-self: stretch; }
+}
+.cform .lbl { display: block; }

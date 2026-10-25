@@ -8,6 +8,9 @@ ORG_NAME = "一般社団法人日本臨床ライフサポート協会"
 ORG_SHORT = "日本臨床ライフサポート協会"
 EMAIL = "info@japan-clinical-lifesupport.org"
 LINE_URL = "https://line.me/R/ti/p/@053epnrj"
+# お問い合わせフォームの送信先（Google Apps Script のウェブアプリURL。https://script.google.com/macros/s/…/exec）
+# 空のあいだはフォームを出さず、メール・LINEの案内だけを表示する。設定手順は apps-script/README.md
+FORM_ENDPOINT = ""
 KODOMO_CARD_URL = ""  # こども救命教育募金のクレジットカード寄付ページ（CONGRANT公開後にURLを入れる）
 VOLUNTEER_URL = "https://x.gd/QW4lP"  # 講習会の指導ボランティア募集フォーム
 SNS = {
