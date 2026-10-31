@@ -778,6 +778,7 @@ def support(prefix):
 <p class="breadcrumb"><a href="{prefix}">トップ</a> ／ ご支援のお願い</p>
 <h1>ご支援のお願い</h1>
 <p class="lead">救える人を地域に一人でも増やす活動を続けるために、皆さまのご支援をお願いいたします。ご支援の方法は「ご寄付」「賛助会員」「基金」の3つです。</p>
+{f'<p style="margin-top:20px"><a class="btn btn-primary" href="{KODOMO_CARD_URL}" target="_blank" rel="noopener">クレジットカードで寄付する</a></p>' if KODOMO_CARD_URL else ''}
 <nav class="page-index" aria-label="このページの内容"><a href="#donation">ご寄付</a><a href="#kodomo">こども救命教育募金</a><a href="#member">賛助会員</a><a href="#fund">基金</a></nav>
 </div></section>
 
@@ -805,6 +806,7 @@ def support(prefix):
 <h3>お振込先</h3>
 {bank}
 <p>お振込みのあと、お名前とご連絡先を {EMAIL} までお知らせください。お礼のご連絡をいたします。領収書が必要な方はその旨もお書き添えください。振込手数料はご負担をお願いいたします。</p>
+{'<p>クレジットカードでのご寄付は、<a href="#kodomo">こども救命教育募金</a>で受け付けています。</p>' if KODOMO_CARD_URL else ''}
 <p>{mail_btn(m_don, "寄付についてメールする")}</p>
 </div></section>
 
@@ -830,7 +832,7 @@ def support(prefix):
 <li>出張講習の交通費・準備費 … 4万円</li>
 </ul>
 <h3>寄付の方法</h3>
-<p><b>クレジットカード</b>　スマートフォンから数分で手続きできます。1回だけのご寄付も歓迎です。</p>
+<p><b>クレジットカード</b>　スマートフォンから数分で手続きできます。1回だけのご寄付も、毎月のご寄付（500円から）も選べます。寄付のページは、寄付サービス「CONGRANT（コングラント）」で開きます。</p>
 <p>{card_btn}</p>
 <p><b>銀行振込</b>　<a href="#donation">上記のお振込先</a>へお振込みください。お振込みの際は、お名前の前に<b>「コドモ」</b>とご入力ください（例：コドモ ヤマダタロウ）。</p>
 <h3>使い道のご報告</h3>
