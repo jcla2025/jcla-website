@@ -9,7 +9,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (KODOMO_CARD_URL, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (KODOMO_CARD_URL, FEATURED, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -237,6 +237,61 @@ def plans_html():
     return "".join(out)
 
 
+def featured_event(prefix, courses_link=True):
+    """トップ・講習会ページの「今いちばん案内したい講習会」枠。開催日が全部過ぎたら出さない。"""
+    if not FEATURED:
+        return ""
+    evs = sorted([e for e in EVENTS if e.get("series") == FEATURED["series"] and e["date"] >= TODAY],
+                 key=lambda e: (e["date"], e.get("time", "")))
+    if not evs:
+        return ""
+    rows = []
+    for e in evs:
+        d = datetime.date.fromisoformat(e["date"])
+        rows.append(f'<li><span class="fe-date"><b>{d.month}/{d.day}</b><small>（{WEEK[d.weekday()]}）</small></span>'
+                    f'<span class="fe-time">{esc(e.get("time", ""))}</span>'
+                    f'<span class="fe-place"><b>{esc(e.get("venue", e["place"]))}</b><small>{esc(e.get("area", ""))}</small></span></li>')
+    points = "".join(f"<li>{esc(x)}</li>" for x in FEATURED.get("points", []))
+    more = (f'<a class="fe-more" href="{prefix}courses/#schedule">会場・内容の詳しい案内 →</a>' if courses_link else "")
+    return f"""<section class="feature-event" aria-labelledby="fe-title"><div class="wrap">
+<div class="fe-card">
+<div class="fe-head">
+<span class="fe-eyebrow">{esc(FEATURED["eyebrow"])}</span>
+<h2 id="fe-title">{esc(FEATURED["title"])}<small>{esc(FEATURED["subtitle"])}</small></h2>
+<p>{esc(FEATURED["text"])}</p>
+<ul class="fe-points">{points}</ul>
+</div>
+<div class="fe-body">
+<ol class="fe-list" aria-label="日程と会場">{"".join(rows)}</ol>
+<a class="btn btn-primary fe-btn" href="{FEATURED["apply"]}" target="_blank" rel="noopener">無料で申し込む {ARROW}</a>
+<p class="fe-note">{esc(FEATURED["note"])}</p>
+<p class="fe-links"><a href="{VOLUNTEER_URL}" target="_blank" rel="noopener">ボランティアとして手伝う →</a>{more}</p>
+</div>
+</div>
+</div></section>"""
+
+
+def bousai_band(prefix):
+    """180分コース（日本防災士機構 認定）の案内枠"""
+    return f"""<section class="section bousai" aria-labelledby="bousai-title"><div class="wrap">
+<div class="bousai-grid">
+<div>
+<span class="bousai-badge">日本防災士機構 認定</span>
+<span class="eyebrow" style="margin-top:18px">180-MINUTE COURSE</span>
+<h2 class="h2" id="bousai-title">防災士資格の救命講習を、<br>出張で行います。</h2>
+<p class="lead">180分コース「救命サポーター スタンダード」は、日本防災士機構より、防災士資格取得のための救命講習として認められています。普通救命講習Ⅰと同等のカリキュラム・時間で、医療の専門職が指導します。</p>
+<p class="bousai-actions"><a class="btn btn-primary" href="{prefix}contact/?topic=%E5%87%BA%E5%BC%B5%E8%AC%9B%E7%BF%92%E3%83%BB%E9%99%A2%E5%86%85%E9%96%8B%E5%82%AC%E3%81%AE%E3%81%94%E4%BE%9D%E9%A0%BC#request">180分コースを依頼する {ARROW}</a></p>
+</div>
+<ul class="bousai-list">
+<li><b>防災士養成講座の救命講習パートに</b><span>大学・自治体・団体が開く防災士養成講座で、救命講習の時間を担当します。</span></li>
+<li><b>職場・地域の防災リーダーに</b><span>企業の防災担当、自主防災組織、学校の教職員など、いざというとき動く役割の方に。</span></li>
+<li><b>人数・会場に合わせて</b><span>少人数から100人規模まで対応。訓練人形・AEDトレーナーなどの資器材は協会が持参します。</span></li>
+<li><b>費用はご相談ください</b><span>開催の目的やご予算に合わせてご提案します。まずはお気軽にお問い合わせください。</span></li>
+</ul>
+</div>
+</div></section>"""
+
+
 PROGRAMS = """<div class="grid-2" style="margin-top:24px">
 <div class="program"><strong>PUSH<br>プロジェクト</strong><span>市民の方・学生向けの救命講習。胸骨圧迫とAEDで「最初の一歩」を。</span></div>
 <div class="program"><strong>INARS<br>急変回避</strong><span>医療・介護・看護教育向け。心停止を未然に防ぐ臨床ライフサポート研修。</span></div>
@@ -259,6 +314,14 @@ def top(prefix):
         news_more = f'<a class="more" href="{prefix}courses/">日程を見る →</a>'
     else:
         news_html = None
+    fe = featured_event(prefix)
+    bar = ""
+    if fe:
+        evs = sorted({e["date"] for e in EVENTS if e.get("series") == FEATURED["series"] and e["date"] >= TODAY})
+        days = "・".join(f"{datetime.date.fromisoformat(x).day}" for x in evs)
+        m = datetime.date.fromisoformat(evs[0]).month
+        bar = (f'<a class="fe-bar" href="#fe-title"><b>受付中</b>{m}/{days} 救命講習会（参加無料）申し込みはこちら ↓</a>')
+        news_html = None  # 大きな案内枠があるときは、お知らせ欄は最新の活動報告にする
     inars_up = sorted([c for c in INARS_COURSES if c["date"] >= TODAY], key=lambda c: c["date"])
 
     def next_line(items, label):
@@ -296,7 +359,7 @@ def top(prefix):
 </div>
 </div>
 </section>"""
-    return f"""
+    return f"""{bar}
 <section class="hero">
 <div class="wrap">
 <div class="hero-text">
@@ -312,6 +375,7 @@ def top(prefix):
 </div>
 </section>
 
+{fe}
 <div class="wrap" style="padding-bottom:clamp(56px,7vw,88px)">
 <div class="news">
 <span class="news-label">お知らせ</span>
@@ -321,6 +385,8 @@ def top(prefix):
 </div>
 
 {doors}
+
+{bousai_band(prefix)}
 
 <section class="section section-navy">
 <div class="wrap split">
@@ -536,6 +602,8 @@ def courses(prefix):
 <p class="lead">どなたでも参加できる救命講習会（胸骨圧迫・AED・窒息への対応など）の日程と、学校・企業・地域団体向けの出張講習のご案内です。医療従事者向けの研修は<a href="{prefix}inars/">INARSコース</a>をご覧ください。</p>
 </div></section>
 
+{featured_event(prefix, courses_link=False)}
+
 <section class="section" id="schedule"><div class="wrap">
 {section_head('SCHEDULE', '開催予定の講習会')}
 <ol class="steps" aria-label="参加までの流れ">
@@ -548,6 +616,8 @@ def courses(prefix):
 </div></section>
 
 {VOLUNTEER_BAND}
+
+{bousai_band(prefix)}
 
 <section class="section section-sand"><div class="wrap">
 {section_head('COURSES', '講習プラン', '<p class="lead">学校・企業・地域団体・スポーツチームなどへの出張講習も承ります。人数や会場に合わせてご相談ください。</p>')}

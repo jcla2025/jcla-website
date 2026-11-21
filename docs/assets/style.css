@@ -426,3 +426,51 @@ p { margin: 0; }
   .cform .btn { align-self: stretch; }
 }
 .cform .lbl { display: block; }
+
+/* 目立たせる講習会（トップ・講習会ページ） */
+.feature-event { padding: 0 0 clamp(32px, 5vw, 56px); }
+.fe-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(24px, 4vw, 56px); background: var(--paper); border: 2px solid var(--accent); border-radius: var(--radius); padding: clamp(24px, 4vw, 48px); box-shadow: 0 18px 40px -28px rgba(31, 58, 95, 0.45); }
+.fe-eyebrow { display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; color: #FFFFFF; background: var(--accent); padding: 4px 14px; border-radius: 999px; }
+.fe-head h2 { font-family: var(--serif); font-weight: 800; font-size: clamp(30px, 4vw, 44px); line-height: 1.3; margin: 16px 0 0; color: var(--ink); }
+.fe-head h2 small { display: block; font-size: clamp(16px, 1.8vw, 19px); font-weight: 700; color: var(--accent-deep); margin-top: 8px; line-height: 1.6; }
+.fe-head > p { margin-top: 16px; color: var(--ink-2); }
+.fe-points { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.fe-points li { font-size: 14px; font-weight: 700; padding: 4px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-deep); }
+.fe-body { display: flex; flex-direction: column; gap: 16px; }
+.fe-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.fe-list li { display: grid; grid-template-columns: max-content max-content minmax(0, 1fr); gap: 4px 12px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.fe-date { white-space: nowrap; }
+.fe-time { white-space: nowrap; }
+.fe-date b { font-family: var(--serif); font-size: 26px; font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+.fe-date small { font-size: 14px; color: var(--muted); }
+.fe-time { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fe-place b { display: block; font-size: 17px; }
+.fe-place small { display: block; font-size: 13px; color: var(--muted); }
+.fe-btn { align-self: stretch; justify-content: center; font-size: 18px; padding-block: 16px; }
+.fe-note { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.7; }
+.fe-links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 0; font-size: 15px; font-weight: 700; }
+.fe-links a { color: var(--navy); }
+@media (max-width: 860px) {
+  .fe-card { grid-template-columns: minmax(0, 1fr); }
+  .fe-list li { grid-template-columns: max-content minmax(0, 1fr); gap: 2px 14px; }
+  .fe-place { grid-column: 1 / -1; }
+}
+
+/* 180分コース（日本防災士機構 認定） */
+.bousai { background: #EAF0F6; }
+.bousai-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+.bousai-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 800; color: #FFFFFF; background: var(--navy); padding: 6px 16px; border-radius: 999px; }
+.bousai-badge::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: #F2C14E; }
+.bousai .lead { margin-top: 16px; }
+.bousai-actions { margin-top: 24px; }
+.bousai-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.bousai-list li { background: var(--paper); border-radius: 14px; padding: 18px 20px; display: grid; gap: 4px; border-left: 4px solid var(--navy); }
+.bousai-list b { font-size: 17px; color: var(--navy); }
+.bousai-list span { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+@media (max-width: 860px) { .bousai-grid { grid-template-columns: minmax(0, 1fr); } .bousai-actions .btn { width: 100%; justify-content: center; } }
+
+/* 受付中の講習会へのお知らせ帯（ヘッダーの下） */
+.fe-bar { display: block; background: var(--accent); color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; text-align: center; padding: 9px 16px; line-height: 1.6; }
+.fe-bar:hover { background: var(--accent-deep); }
+.fe-bar b { display: inline-block; background: #FFFFFF; color: var(--accent); border-radius: 999px; padding: 0 10px; margin-right: 8px; font-size: 12px; }
+#fe-title { scroll-margin-top: 110px; }
