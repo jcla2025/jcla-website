@@ -263,7 +263,7 @@ def featured_event(prefix, courses_link=True):
 </div>
 <div class="fe-body">
 <ol class="fe-list" aria-label="日程と会場">{"".join(rows)}</ol>
-<a class="btn btn-primary fe-btn" href="{FEATURED["apply"]}" target="_blank" rel="noopener">無料で申し込む {ARROW}</a>
+<a class="btn btn-primary fe-btn" href="{FEATURED["apply"]}" target="_blank" rel="noopener">この講習会に申し込む {ARROW}</a>
 <p class="fe-note">{esc(FEATURED["note"])}</p>
 <p class="fe-links"><a href="{VOLUNTEER_URL}" target="_blank" rel="noopener">ボランティアとして手伝う →</a>{more}</p>
 </div>
