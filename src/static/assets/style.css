@@ -474,3 +474,8 @@ p { margin: 0; }
 .fe-bar:hover { background: var(--accent-deep); }
 .fe-bar b { display: inline-block; background: #FFFFFF; color: var(--accent); border-radius: 999px; padding: 0 10px; margin-right: 8px; font-size: 12px; }
 #fe-title { scroll-margin-top: 110px; }
+/* パソコンではお知らせ帯を太く・大きく */
+@media (min-width: 861px) {
+  .fe-bar { font-size: 19px; padding: 18px 24px; letter-spacing: 0.03em; }
+  .fe-bar b { font-size: 15px; padding: 2px 14px; margin-right: 14px; vertical-align: 1px; }
+}
