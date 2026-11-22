@@ -265,7 +265,7 @@ def featured_event(prefix, courses_link=True):
 <ol class="fe-list" aria-label="日程と会場">{"".join(rows)}</ol>
 <a class="btn btn-primary fe-btn" href="{FEATURED["apply"]}" target="_blank" rel="noopener">この講習会に申し込む {ARROW}</a>
 <p class="fe-note">{esc(FEATURED["note"])}</p>
-<div class="fe-vol"><p><b>ボランティアとして参加する方へ</b>ボランティアは別のフォームです。受講の修了証とボランティア実績証の<b class="em">両方をご希望の方は、両方のフォームからお申し込みください。</b></p>
+<div class="fe-vol"><p><b>ボランティアとして参加する方へ</b>会場の準備と片付けをお手伝いいただき、講習の時間は受講者と一緒に講習にも参加できます。ボランティアの申込は別のフォームです。受講の修了証とボランティア実績証の<b class="em">両方をご希望の方は、両方のフォームからお申し込みください。</b></p>
 <a href="{VOLUNTEER_URL}" target="_blank" rel="noopener">ボランティアに申し込む →</a></div>
 {f'<p class="fe-links">{more}</p>' if more else ''}
 </div>
@@ -582,7 +582,7 @@ VOLUNTEER_BAND = f"""<section class="section section-navy" id="volunteer"><div c
 <div>
 <p>当協会の講習会は、毎回ボランティアの皆さんと一緒に運営しています。ボランティア活動に取り組む方も応援しています。講習会当日の運営や、会場の準備・片付けなどをお手伝いいただいた方には、「ボランティア実績証」を発行します。</p>
 <p>学生の方の進学・就職活動や、地域活動の実績づくりにもお役立てください。</p>
-<p>講習会の受講申込とボランティアの申込は別のフォームです。受講の修了証とボランティア実績証の両方をご希望の方は、両方のフォームからお申し込みください。</p>
+<p>ボランティアの方は、会場の準備と片付けをお手伝いいただきながら、講習の時間は受講者と一緒に講習にも参加できます。受講の申込とボランティアの申込は別のフォームです。受講の修了証とボランティア実績証の両方をご希望の方は、両方のフォームからお申し込みください。</p>
 <p><a class="btn btn-light" href="{VOLUNTEER_URL}" rel="noopener">ボランティアに申し込む <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
 </div>
 </div></section>"""
