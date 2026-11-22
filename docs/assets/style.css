@@ -473,7 +473,8 @@ p { margin: 0; }
 .fe-bar { display: block; background: var(--accent); color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: 700; text-align: center; padding: 9px 16px; line-height: 1.6; }
 .fe-bar:hover { background: var(--accent-deep); }
 .fe-bar b { display: inline-block; background: #FFFFFF; color: var(--accent); border-radius: 999px; padding: 0 10px; margin-right: 8px; font-size: 12px; }
-#fe-title { scroll-margin-top: 110px; }
+#next-course { scroll-margin-top: 104px; }
+@media (max-width: 860px) { #next-course { scroll-margin-top: 84px; } }
 /* パソコンではお知らせ帯を太く・大きく */
 @media (min-width: 861px) {
   .fe-bar { font-size: 19px; padding: 18px 24px; letter-spacing: 0.03em; }

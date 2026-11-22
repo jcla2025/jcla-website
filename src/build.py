@@ -253,7 +253,7 @@ def featured_event(prefix, courses_link=True):
                     f'<span class="fe-place"><b>{esc(e.get("venue", e["place"]))}</b><small>{esc(e.get("area", ""))}</small></span></li>')
     points = "".join(f"<li>{esc(x)}</li>" for x in FEATURED.get("points", []))
     more = (f'<a class="fe-more" href="{prefix}courses/#schedule">会場・内容の詳しい案内 →</a>' if courses_link else "")
-    return f"""<section class="feature-event" aria-labelledby="fe-title"><div class="wrap">
+    return f"""<section class="feature-event" id="next-course" aria-labelledby="fe-title"><div class="wrap">
 <div class="fe-card">
 <div class="fe-head">
 <span class="fe-eyebrow">{esc(FEATURED["eyebrow"])}</span>
@@ -322,7 +322,7 @@ def top(prefix):
         evs = sorted({e["date"] for e in EVENTS if e.get("series") == FEATURED["series"] and e["date"] >= TODAY})
         days = "・".join(f"{datetime.date.fromisoformat(x).day}" for x in evs)
         m = datetime.date.fromisoformat(evs[0]).month
-        bar = (f'<a class="fe-bar" href="#fe-title"><b>受付中</b>{m}/{days} 救命講習会（参加無料）申し込みはこちら ↓</a>')
+        bar = (f'<a class="fe-bar" href="#next-course"><b>受付中</b>{m}/{days} 救命講習会（参加無料）申し込みはこちら ↓</a>')
         news_html = None  # 大きな案内枠があるときは、お知らせ欄は最新の活動報告にする
     inars_up = sorted([c for c in INARS_COURSES if c["date"] >= TODAY], key=lambda c: c["date"])
 
