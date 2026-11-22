@@ -479,3 +479,8 @@ p { margin: 0; }
   .fe-bar { font-size: 19px; padding: 18px 24px; letter-spacing: 0.03em; }
   .fe-bar b { font-size: 15px; padding: 2px 14px; margin-right: 14px; vertical-align: 1px; }
 }
+.fe-vol { background: var(--ground); border-radius: 14px; padding: 14px 18px; display: grid; gap: 8px; }
+.fe-vol p { margin: 0; font-size: 14px; line-height: 1.75; color: var(--ink-2); }
+.fe-vol p b:first-child { display: block; font-size: 15px; color: var(--navy); margin-bottom: 2px; }
+.fe-vol b.em { color: var(--ink); }
+.fe-vol a { font-size: 15px; font-weight: 700; color: var(--navy); }
