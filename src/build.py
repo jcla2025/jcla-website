@@ -9,7 +9,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (KODOMO_CARD_URL, FEATURED, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (KODOMO_CARD_URL, INARS_TEXT_URL, FEATURED, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1029,20 +1029,33 @@ def inars(prefix):
     up = "".join(inars_row(c, False) for c in upcoming) or (
         f'<p class="empty">現在、受付中のコースはありません。<br>全国の開催予定は<a href="{INARS_LIST_URL}" rel="noopener">MeCCSOの申込一覧</a>でもご覧いただけます。</p>')
     past_html = "".join(inars_row(c, True) for c in past)
+    rep = [r for r in reports_sorted if r.get("tag") == "INARSコース"]
+    rep_html = (f'<h3 style="margin:40px 0 16px;font-size:20px">開催報告</h3><div class="grid-3">{report_cards(prefix, rep[:3])}</div>' if rep else "")
     past_sec = f"""<section class="section"><div class="wrap">
 {section_head('ARCHIVE', 'これまでのコース')}
 <div class="events">{past_html}</div>
+{rep_html}
 </div></section>""" if past_html else ""
     return f"""<section class="page-hero"><div class="wrap">
-<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ INARSコース</p>
-<h1>INARSコース</h1>
-<p class="lead">医療従事者・看護教育のための院内急変回避研修、INARS（アイナース）コースの日程とお申し込み先をご案内します。当協会は「中四国INARSコース」をはじめ、各地のコースの開催を支援しています。</p>
+<p class="breadcrumb"><a href="{prefix}">トップ</a> ／ 中四国INARSコース</p>
+<h1>中四国INARSコース</h1>
+<p class="inars-tagline">生き続けるために地域をつなぐ、道を開く。</p>
+<p class="lead">医療従事者・看護教育のための院内急変回避研修、INARS（アイナース）コース。当協会は、岡山・広島・鳥取・高知・徳島・香川など中国・四国地方を中心に、各地の病院でのコース開催を支援しています。日程・お申し込み先と、受講前の準備をご案内します。</p>
 </div></section>
 
 <section class="section" id="schedule"><div class="wrap">
 {section_head('SCHEDULE', '開催予定・お申し込み', f'<a class="more" href="{INARS_LIST_URL}" rel="noopener">全国の開催一覧（MeCCSO）→</a>')}
 <div class="events">{up}</div>
 <p style="margin-top:20px;font-size:14px;color:var(--muted)">「職員限定」のコースは、開催病院の職員の方のみ受講できます。お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「詳細・お申し込み」から、MeCCSOの各コースのページに進めます。受講料・お支払い方法と空き状況（満席・キャンセル待ち）は、各コースの申込画面でご確認ください。</p>
+</div></section>
+
+<section class="section section-paper" id="prepare"><div class="wrap">
+{section_head('BEFORE THE COURSE', '受講が決まったら')}
+<div class="grid-3">
+<div class="card"><span class="num">1</span><h3>テキストを購入する</h3><p>コースで使うテキスト「INARSコースガイド」は、各自でご購入ください。販売はシェパード社のオンラインショップのみで、書店では扱っていません。届くまで日数がかかることがあるため、<b>受講が決まったら早めのご注文</b>をおすすめします。</p><p style="margin-top:14px"><a class="btn btn-outline" href="{INARS_TEXT_URL}" target="_blank" rel="noopener">テキストの購入ページへ {ARROW}</a></p></div>
+<div class="card"><span class="num">2</span><h3>受講料を振り込む</h3><p>受講決定のメールが届いたら、案内に沿って受講料をお振り込みください。期限内にお振り込みが確認できない場合、受講がキャンセル扱いになることがあります。</p></div>
+<div class="card"><span class="num">3</span><h3>予習して当日へ</h3><p>テキストに目を通しておくと、当日のシミュレーションに集中できます。動きやすい服装でお越しください。詳しい集合時刻などは、各コースからの案内をご確認ください。</p></div>
+</div>
 </div></section>
 
 <section class="section section-sand"><div class="wrap">
@@ -1088,8 +1101,8 @@ def build():
          about, "about", [breadcrumb_ld([("トップ", ""), ("協会について", "about/")])])
     page("courses/", "岡山の救命講習・AED講習会 日程と出張講習", "岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。",
          courses, "courses", courses_ld() + [faq_ld(), breadcrumb_ld([("トップ", ""), ("救命講習会", "courses/")])])
-    page("inars/", "INARSコース 開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。当協会が開催を支援する中四国INARSコースなどの日程と、MeCCSO申込ページへのご案内です。",
-         inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("INARSコース", "inars/")])])
+    page("inars/", "中四国INARSコース（岡山・広島・鳥取・高知・徳島・香川）開催予定・お申し込み", "医療従事者・看護教育向けの院内急変回避研修INARS（アイナース）コース。当協会が開催を支援する中四国の各地のコースの日程、MeCCSO申込ページ、テキスト購入など受講前の準備をご案内します。",
+         inars, "inars", inars_ld() + [breadcrumb_ld([("トップ", ""), ("中四国INARSコース", "inars/")])])
     page("reports/", "活動報告", "日本臨床ライフサポート協会の救命講習会・INARSコースの開催報告とお知らせ。", reports_index, "reports",
          [breadcrumb_ld([("トップ", ""), ("活動報告", "reports/")])])
     for i, r in enumerate(reports_sorted):
