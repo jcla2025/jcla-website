@@ -1046,14 +1046,14 @@ def inars(prefix):
 <section class="section" id="schedule"><div class="wrap">
 {section_head('SCHEDULE', '開催予定・お申し込み', f'<a class="more" href="{INARS_LIST_URL}" rel="noopener">全国の開催一覧（MeCCSO）→</a>')}
 <div class="events">{up}</div>
-<p style="margin-top:20px;font-size:14px;color:var(--muted)">「職員限定」のコースは、開催病院の職員の方のみ受講できます。お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「詳細・お申し込み」から、MeCCSOの各コースのページに進めます。受講料・お支払い方法と空き状況（満席・キャンセル待ち）は、各コースの申込画面でご確認ください。</p>
+<p style="margin-top:20px;font-size:14px;color:var(--muted)">「職員限定」のコースは、開催病院の職員の方のみ受講できます。お申し込みは、医療危機管理支援機構（MeCCSO）の申込ページで受け付けています。「詳細・お申し込み」から、MeCCSOの各コースのページに進めます。受講料と空き状況（満席・キャンセル待ち）は、各コースの申込画面でご確認ください。</p>
 </div></section>
 
 <section class="section section-paper" id="prepare"><div class="wrap">
 {section_head('BEFORE THE COURSE', '受講が決まったら')}
 <div class="grid-3">
 <div class="card"><span class="num">1</span><h3>テキストを購入する</h3><p>コースで使うテキスト「INARSコースガイド」は、各自でご購入ください。販売はシェパード社のオンラインショップのみで、書店では扱っていません。届くまで日数がかかることがあるため、<b>受講が決まったら早めのご注文</b>をおすすめします。</p><p style="margin-top:14px"><a class="btn btn-outline" href="{INARS_TEXT_URL}" target="_blank" rel="noopener">テキストの購入ページへ {ARROW}</a></p></div>
-<div class="card"><span class="num">2</span><h3>受講料を振り込む</h3><p>受講決定のメールが届いたら、案内に沿って受講料をお振り込みください。期限内にお振り込みが確認できない場合、受講がキャンセル扱いになることがあります。</p></div>
+<div class="card"><span class="num">2</span><h3>受講料は当日、受付で</h3><p>受講料は、コース当日に会場の受付でお支払いください。キャッシュレス決済もご利用いただけます。</p></div>
 <div class="card"><span class="num">3</span><h3>予習して当日へ</h3><p>テキストに目を通しておくと、当日のシミュレーションに集中できます。動きやすい服装でお越しください。詳しい集合時刻などは、各コースからの案内をご確認ください。</p></div>
 </div>
 </div></section>
