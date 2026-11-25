@@ -8,6 +8,7 @@ ORG_NAME = "一般社団法人日本臨床ライフサポート協会"
 ORG_SHORT = "日本臨床ライフサポート協会"
 EMAIL = "info@japan-clinical-lifesupport.org"
 INARS_TEXT_URL = "https://www.e-shepherd.jp/view/item/013001000001"  # INARSコースガイド（シェパードオンラインショップ）
+GA_ID = "G-1RXYZD4NCH"  # Googleアナリティクス（協会アカウント）
 LINE_URL = "https://line.me/R/ti/p/@053epnrj"
 # お問い合わせフォームの送信先（Google Apps Script のウェブアプリURL。https://script.google.com/macros/s/…/exec）
 # 空のあいだはフォームを出さず、メール・LINEの案内だけを表示する。設定手順は apps-script/README.md

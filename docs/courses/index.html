@@ -3,6 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1RXYZD4NCH"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-1RXYZD4NCH');
+// 申込・寄付・相談などのボタンが押された回数を数える
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;
+var h=a.href||'',t=(a.textContent||'').replace(/（新しいタブで開きます）/,'').trim().slice(0,60),ev=null;
+if(/x\.gd|forms\.gle|docs\.google\.com\/forms/.test(h))ev=/ボランティア/.test(t)?'volunteer_apply_click':'course_apply_click';
+else if(/meccso\.jp/.test(h))ev='inars_apply_click';
+else if(/congrant\.com/.test(h))ev='donate_click';
+else if(/line\.me/.test(h))ev='line_click';
+else if(/^mailto:/.test(h))ev='mail_click';
+else if(/contact\/.*#request|contact\/\?topic=/.test(h))ev='request_click';
+else if(/e-shepherd\.jp/.test(h))ev='inars_text_click';
+if(ev)gtag('event',ev,{link_text:t,link_url:h,page_path:location.pathname});},true);
+</script>
 <title>岡山の救命講習・AED講習会 日程と出張講習｜一般社団法人日本臨床ライフサポート協会</title>
 <meta name="description" content="岡山県内（備前市・赤磐市・岡山市・倉敷市）で開催する救命講習会・AED講習の日程と、学校・企業・団体向け出張講習のご案内。防災士資格取得の救命講習として認定された180分コースもあります。">
 <link rel="canonical" href="https://www.japan-clinical-lifesupport.org/courses/">
@@ -174,6 +190,7 @@
 </div>
 </div>
 <p class="copy">© 2026 一般社団法人日本臨床ライフサポート協会</p>
+<p class="copy" style="margin-top:6px;font-size:12px">当サイトでは、利用状況を把握するためGoogleアナリティクスを使用しています。データはCookieを使って匿名で収集され、個人を特定するものではありません。</p>
 </div>
 </footer>
 <div class="mobile-cta" aria-label="お申し込みの近道">

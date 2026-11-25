@@ -9,7 +9,7 @@ import shutil
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import (KODOMO_CARD_URL, INARS_TEXT_URL, FEATURED, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
+from content import (KODOMO_CARD_URL, GA_ID, INARS_TEXT_URL, FEATURED, FORM_ENDPOINT, FOUNDED, HISTORY, AREA_INARS, AREA_PUBLIC, AREAS, EMAIL, EVENTS, INARS_COURSES, INARS_LIST_URL, INARS_WORKSHOPS, INARS_WS_LIST_URL, LINE_URL, ORG_NAME,
                      ORG_SHORT, PHOTOS, PLANS, REPORTS, REPORT_CATEGORIES, SITE_URL, SNS, VOLUNTEER_URL)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -116,6 +116,7 @@ def footer(prefix):
 </div>
 </div>
 <p class="copy">© {year} {ORG_NAME}</p>
+<p class="copy" style="margin-top:6px;font-size:12px">当サイトでは、利用状況を把握するためGoogleアナリティクスを使用しています。データはCookieを使って匿名で収集され、個人を特定するものではありません。</p>
 </div>
 </footer>
 <div class="mobile-cta" aria-label="お申し込みの近道">
@@ -143,6 +144,7 @@ def page(path, title, description, body, current="", ld=None, og_type="website",
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{GA_HTML}
 <title>{esc(t)}</title>
 <meta name="description" content="{esc(description)}">
 <link rel="canonical" href="{url}">
@@ -172,6 +174,23 @@ def page(path, title, description, body, current="", ld=None, og_type="website",
 """
     write(path, external_tabs(doc))
     written.append(path)
+
+GA_HTML = rf"""<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}
+gtag('js',new Date());gtag('config','{GA_ID}');
+// 申込・寄付・相談などのボタンが押された回数を数える
+document.addEventListener('click',function(e){{var a=e.target.closest&&e.target.closest('a');if(!a)return;
+var h=a.href||'',t=(a.textContent||'').replace(/（新しいタブで開きます）/,'').trim().slice(0,60),ev=null;
+if(/x\.gd|forms\.gle|docs\.google\.com\/forms/.test(h))ev=/ボランティア/.test(t)?'volunteer_apply_click':'course_apply_click';
+else if(/meccso\.jp/.test(h))ev='inars_apply_click';
+else if(/congrant\.com/.test(h))ev='donate_click';
+else if(/line\.me/.test(h))ev='line_click';
+else if(/^mailto:/.test(h))ev='mail_click';
+else if(/contact\/.*#request|contact\/\?topic=/.test(h))ev='request_click';
+else if(/e-shepherd\.jp/.test(h))ev='inars_text_click';
+if(ev)gtag('event',ev,{{link_text:t,link_url:h,page_path:location.pathname}});}},true);
+</script>""" if GA_ID else ""
 
 
 EXT_RE = re.compile(r'<a ([^>]*?)href="(https?://[^"]+)"([^>]*)>(.*?)</a>', re.S)
